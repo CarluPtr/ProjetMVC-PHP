@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css">
+        
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/14273d579a.js" crossorigin="anonymous"></script>
+    <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+    </head>  
+
+    <body>
+        <header class="mb-5">
+        <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
+            <div class="container">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                 <div class="container d-flex justify-content-center">
+                    <div class="row">
+                    <div class="col-12 d-flex justify-content-center mb-3">
+                        <a class="navbar-brand" href="#">
+                        <img class="rounded-circle"
+                        id="MDB-logo"
+                        src="https://carluptr.github.io/CV/img/Photo_moi.jpeg"
+                        alt="Blog de Carlu"
+                        draggable="false"
+                        height="70"/></a>
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav align-items-center mx-auto">
+                        <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase fw-bold" href="index.php"><i class="fas fa-home pe-2"></i>Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase fw-bold" href="?action=listPosts"><i class="fas fa-rss pe-2"></i>Blog</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase fw-bold" href="#!"><i class="fas fa-heart pe-2"></i>Trips</a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </nav>
+
+            
+    </header>  
+    
+<main class="pt-5">
+<section class="content py-5">
+        {% block body %}
+        {% endblock %} 
+
+    </section>
+
+        
+    <!-- Script js -->
+</main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>

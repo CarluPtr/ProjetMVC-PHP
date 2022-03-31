@@ -1,0 +1,31 @@
+{% extends 'template.html.twig' %}
+
+
+{% block body %}
+
+<title>Blog de Carlu</title>
+<section class="pt-5">
+     <div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <embed src="public/images/CV.svg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="500" height="500" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold lh-1 mb-3">Blog de Carlu Pietri</h1>
+        <p class="lead">"Étudiant en développement web / Openclassrooms - PHP / Symfony chez Openclassrooms"</p>
+        <div class="d-flex align-items-center gap-2 d-md-flex justify-content-md-start">
+          <a href="public/pdf/CV.pdf" target="_blank"><button type="button" class="btn btn-dark btn-lg px-4 me-md-2"><i class="far fa-file-pdf"></i> Voir mon CV</button></a>
+          <i class="fab fa-github fa-2x mx-1"></i>
+          <i class="fab fa-linkedin fa-2x mx-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light">
+  <div class="container">
+  </div>
+</section>
+
+{% endblock %}
