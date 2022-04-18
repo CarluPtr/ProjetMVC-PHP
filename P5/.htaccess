@@ -1,0 +1,6 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteRule ^list ./index.php?action=listPosts
+RewriteRule ^post/([0-9]+)$ ./index.php?action=post&id=$1
+RewriteRule ^accueil ./index.php

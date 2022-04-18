@@ -1,3 +1,16 @@
 body {
     font-family: 'Montserrat', sans-serif !important;
   }
+
+.post-img {
+    width: 55vw;
+}
+.navbar-brand{
+  margin-right: 0!important;
+}
+
+  @media (max-width: 991.98px) { 
+    .post-img {
+      width: 70vw;
+  }
+}

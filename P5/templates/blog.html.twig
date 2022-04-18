@@ -8,18 +8,21 @@
     {% for blogpost in post %}
 
         <div class="container py-2">
-                <div class=" card card-body">
-                    <h3>
-                        {{blogpost.title}}
-                        <em class="fw-light fs-5">le {{blogpost.creation_date_fr}}</em>
-                    </h3>
-                    
-                    <p>
-                        {{blogpost.content}}
-                    </p>
-                    <a href="index.php?action=post&amp;id={{blogpost.id}}"><button class="btn btn-outline-dark">Voir les commentaires</button></a>
+            <div class="card mb-3">
+                <div class="row g-0 justify-content-center">
+                    <div class="col-md-5 d-flex align-items-stretch">
+                    <img src="data:image/png;, {{blogpost.img| url_encode}}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-7 d-flex align-items-stretch">
+                        <div class=" card card-body">
+                            <h3 class="fw-bold">{{blogpost.title}}</h3>
+                            <p class="fw-light fs-5">le {{blogpost.creation_date_fr}}</p>
+                            <p>{{blogpost.content}}</p>
+                            <a href="{{ YOUR_BASE_URL }}/{{ MAIN_FILE }}/post/{{blogpost.id}}"><button class="btn btn-outline-dark">Voir les commentaires</button></a>
+                        </div>
+                    </div>
                 </div>
-        
+                </div>
             </div>
 
     {% endfor %}
