@@ -1,0 +1,108 @@
+{% extends 'template.html.twig' %}
+
+{% block body %}
+
+{% if userid == null %}
+
+
+<div class="card text-center">
+  <div class="card-header">Attention !</div>
+  <div class="card-body">
+    <h5 class="card-title">Vous devez être connecté pour accéder à cette page</h5>
+    <p class="card-text">Cliquez sur le bouton ci-dessous pour vous rediriger vers la page de connexion.</p>
+    <a href="/{{MAIN_FILE}}/login" class="btn btn-primary">Login</a>
+  </div>
+</div>
+
+
+{% else %}
+
+
+<section class="pt-5 py-5">
+<div class="container py-5">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+          {% if userInfos.profile_picture %}
+            <img src="data:image/png;, {{userInfos.profile_picture| url_encode}}" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
+          {% else %}    
+            <img src="/{{ MAIN_FILE }}/public/images/no-img.png" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px; height: 150px;" loading="lazy">
+          {% endif %}   
+            <h5 class="my-3">{{userInfos.username}}</h5> 
+            <h5 class="my-3 fw-light">{{userInfos.prenom}} {{userInfos.nom}}</h5>
+            <p class="text-muted mb-1">{{userInfos.description}}</p>
+{% if userid == userInfos.id %}
+            <div class="d-flex justify-content-center mb-2">
+              <button type="button" class="btn btn-dark">Change description</button>
+              <label for="profilepic" type="button" class="btn btn-outline-dark ms-1">Change profile picture</button>
+              <input id="profilepic" type="file"/>
+            </div>
+{% else %} 
+
+{% endif %}
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Nom complet</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userInfos.prenom}} {{userInfos.nom}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userInfos.email}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Date inscription</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userInfos.date_inscription}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Rôle</p>
+              </div>
+              <div class="col-sm-9">
+
+                {% if userInfos.is_admin == 1 %}
+
+                <p class="text-muted mb-0">Administrateur</p>
+
+                {% else %}
+
+                <p class="text-muted mb-0">Utilisateur</p>
+
+                {% endif %}  
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+
+{% endblock %}

@@ -6,7 +6,7 @@
 <html>
     <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css">
+    <link type="text/css" rel="stylesheet" href="/{{ MAIN_FILE }}/style.css">
         
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700display=swap" rel="stylesheet">
@@ -38,14 +38,27 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav align-items-center mx-auto">
                         <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase fw-bold" href="{{ YOUR_BASE_URL }}/{{ MAIN_FILE }}/accueil"><i class="fas fa-home pe-2"></i>Accueil</a>
+                            <a class="nav-link mx-2 text-uppercase fw-bold" href="/{{ MAIN_FILE }}/accueil"><i class="fas fa-home pe-2"></i>Accueil</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase fw-bold" href="{{ YOUR_BASE_URL }}/{{ MAIN_FILE }}/list"><i class="fas fa-rss pe-2"></i>Blog</a>
+                            <a class="nav-link mx-2 text-uppercase fw-bold" href="/{{ MAIN_FILE }}/list"><i class="fas fa-rss pe-2"></i>Blog</a>
                         </li>
-                        <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase fw-bold" href="#!"><i class="fas fa-user pe-2"></i>Mon compte</a>
-                        </li>
+                        {% if userid %}
+                            <li class="nav-item">
+                                <a class="nav-link mx-2 text-uppercase fw-bold" href="/{{ MAIN_FILE }}/account/{{ userid }}"><i class="fas fa-user pe-2"></i>Mon compte</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-2 text-uppercase fw-bold" href="/{{ MAIN_FILE }}/logout"><i class="fas fa-sign-out-alt pe-2"></i>Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link mx-2 text-uppercase fw-bold" href="/{{ MAIN_FILE }}/register"><i class="fas fa-user pe-2"></i>Register</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link mx-2 text-uppercase fw-bold" href="/{{ MAIN_FILE }}/login"><i class="fas fa-sign-in-alt pe-2"></i>Login</a>
+                            </li>
+                        {% endif %}
                     </ul>
                     </div>
                 </div>
@@ -63,7 +76,6 @@
         {% endblock %} 
 
     </section>
-
         
     <!-- Script js -->
 </main>
