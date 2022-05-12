@@ -37,18 +37,22 @@ function post()
     $post = $postManager->getPost($_GET['id']);
     $comments = $commentManager->getComments($_GET['id']);
 
+
+
     echo $twig->render('posts.html.twig', [
         'post' => $post,
-        'comment' => $comments,
+        'comments' => $comments,
         'userid' => $_SESSION['id'] ?? null,
         ]);
 }
 
-function addComment($postId, $author, $comment)
+function addComment($postId, $utilisateur, $comment)
 {
+    $utilisateur = $_SESSION['id'];
+
     $commentManager = new CommentManager();
 
-    $affectedLines = $commentManager->postComment($postId, $author, $comment);
+    $affectedLines = $commentManager->postComment($postId, $utilisateur, $comment);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible d\'ajouter le commentaire !');
@@ -117,16 +121,43 @@ function accountPage(){
 
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
+    
+    
+    $userManager = new UserManager(); 
+    $user = $userManager->getUser($_GET['id']);
 
-    $username = $_SESSION['username'];
+    $postManager = new PostManager();
+    $posts = $postManager->getUserPosts($_GET['id']);
 
-    $userManager = new UserManager(); // Création d'un objet
-    $user = $userManager->getUser($_GET['id'], $username); // Appel d'une fonction de cet objet
-
+    $commentManager = new CommentManager();
+    $comments = $commentManager->getUserComments($_GET['id']);
+    
     echo $twig->render('profile.html.twig', [
         'userid' => $_SESSION['id'] ?? null,
-        'userInfos' => $user
+        'userInfos' => $user,
+        'posts' => $posts,
+        'comment' => $comments,
     ]);
+}
+
+function changePP($id, $profilepicture)
+{
+    if($id = $_SESSION['id']){
+        $id = $_SESSION['id'];
+        $userManager = new UserManager(); 
+        $user = $userManager->editPP($id, $profilepicture);
+        
+        if ($affectedLines === false) {
+            throw new Exception("Impossible de changer l'image");
+        }
+        else {
+            header('Location: account/' . $id);
+        }
+    }
+    else{
+        echo("vous n'etes pas le bon user");
+    }
+
 }
 
 

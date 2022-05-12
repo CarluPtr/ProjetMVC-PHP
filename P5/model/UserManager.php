@@ -111,7 +111,7 @@ class UserManager extends Manager
         }
     }
 
-    public function getUser($id, $username){
+    public function getUser($id){
 
         $db = $this->dbConnect();
         $req = $db->prepare('SELECT id, prenom, nom, username, email, profile_picture, description, is_admin, DATE_FORMAT(date_inscription, \'%d/%m/%Y\') AS date_inscription FROM user WHERE id = ?');
@@ -119,6 +119,19 @@ class UserManager extends Manager
         $userInfos = $req->fetch();
 
         return $userInfos;
+    }
+
+    public function editPP($id, $profilepicture){
+
+        $image = $profilepicture['tmp_name'];
+        $data = file_get_contents($image);
+
+        $db = $this->dbConnect();
+        $stmt = $db->prepare("UPDATE user SET profile_picture = ? WHERE id = '$id'");
+        $affectedLines = $stmt->execute(array($data));
+
+
+        return $affectedLines;
     }
 
 }

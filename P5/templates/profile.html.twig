@@ -2,15 +2,15 @@
 
 {% block body %}
 
-{% if userid == null %}
+{% if userInfos == null %}
 
 
 <div class="card text-center">
-  <div class="card-header">Attention !</div>
+  <div class="card-header">Wow !</div>
   <div class="card-body">
-    <h5 class="card-title">Vous devez être connecté pour accéder à cette page</h5>
-    <p class="card-text">Cliquez sur le bouton ci-dessous pour vous rediriger vers la page de connexion.</p>
-    <a href="/{{MAIN_FILE}}/login" class="btn btn-primary">Login</a>
+    <h5 class="card-title">Cette page n'existe pas</h5>
+    <p class="card-text">Cliquez sur le bouton ci-dessous pour vous rediriger vers la page d'accueil</p>
+    <a href="/{{MAIN_FILE}}/accueil" class="btn btn-primary">Home</a>
   </div>
 </div>
 
@@ -35,19 +35,38 @@
             <h5 class="my-3">{{userInfos.username}}</h5> 
             <h5 class="my-3 fw-light">{{userInfos.prenom}} {{userInfos.nom}}</h5>
             <p class="text-muted mb-1">{{userInfos.description}}</p>
-{% if userid == userInfos.id %}
-            <div class="d-flex justify-content-center mb-2">
-              <button type="button" class="btn btn-dark">Change description</button>
-              <label for="profilepic" type="button" class="btn btn-outline-dark ms-1">Change profile picture</button>
-              <input id="profilepic" type="file"/>
+          {% if userid == userInfos.id %}
+          
+          <!--FILE FORM -->
+          
+            <div class="row justify-content-center mb-2">
+              <div class="col-6">
+                <button type="button" class="btn btn-dark">Changer votre description</button>
+              </div>
+
+              <div class="col-6">
+                <form method="POST" 
+                action="/{{ MAIN_FILE }}/index.php?action=changePP&amp;id={{userInfos.id}}"
+                enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="profilepic" class="btn btn-outline-dark ">Mettre à jour la photo de profil</label>
+                    <input type="file" id="profilepic" name="profilepic" class="form-control"/>
+                    <label for="save-img" class="btn btn-secondary mt-2">Valider la photo</label>
+                    <input type="submit" id="save-img" class="invisible" name="save-img" class="form-control"/>
+                  </div>
+              </div>  
+
+              </form>
             </div>
-{% else %} 
 
-{% endif %}
+          {% else %} 
 
+          {% endif %}
           </div>
         </div>
       </div>
+
+
       <div class="col-lg-8">
         <div class="card mb-4">
           <div class="card-body">
@@ -99,7 +118,51 @@
           </div>
         </div>
       </div>
+
     </div>
+    <div class="row">
+
+      <div class="col-4">
+      <h3 class='py-2 fw-light'>Posts de l'utilisateur</h3>
+      {% for blogpost in posts %}
+
+        {% if blogpost %}
+          <div class="card mb-3">
+            <img src="data:image/png;, {{blogpost.img| url_encode}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{blogpost.title}}</h5>
+              <p class="fw-light fs-5">le {{blogpost.creation_date_fr}}</p>
+              <p class="card-text">{{blogpost.content}}</p>
+              <a href="/{{ MAIN_FILE }}/post/{{blogpost.id}}"><button class="btn btn-outline-dark">Voir les commentaires</button></a>
+            </div>
+          </div>
+        {% else %}
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <p class="mb-0">L'utilisateur n'a pas de posts.</p>
+            </div>
+          </div>  
+        {% endif %}  
+      {% endfor %}      
+      </div>
+
+
+     <div class="col-8">
+     <h3 class='py-2 fw-light'>Commentaires de l'utilisateur</h3>
+    {% for comments in comment |filter(comments => comments.comment_date_fr > 0)%}
+        <div class="container py-2">
+                  <div class="card card-body">
+                      <p><strong>{{userInfos.username}}</strong> le <span class='fw-light'>{{comments.comment_date_fr}}</span> </p>
+                      <p>{{comments.comment}}</p>
+                  </div>
+          </div>    
+
+    {% endfor %}
+      </div>  
+
+
+    </div>  
+
   </div>
 </section>
 

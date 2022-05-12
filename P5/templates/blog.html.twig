@@ -5,9 +5,33 @@
 
 <title>Blog de Carlu</title>
 <section class="pt-5">
-    {% for blogpost in post %}
 
         <div class="container py-2">
+        <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Créer un post
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Création du post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>
+    {% for blogpost in post %}
+
             <div class="card mb-3">
                 <div class="row g-0 justify-content-center">
                     <div class="col-md-5 d-flex align-items-stretch">
@@ -22,9 +46,9 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
 
     {% endfor %}
+        </div>
 </section>    
 {% endblock %}
