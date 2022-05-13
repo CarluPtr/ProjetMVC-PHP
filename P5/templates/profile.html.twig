@@ -78,6 +78,7 @@
                 <p class="text-muted mb-0">{{userInfos.prenom}} {{userInfos.nom}}</p>
               </div>
             </div>
+            {% if userid == userInfos.id %}
             <hr>
             <div class="row">
               <div class="col-sm-3">
@@ -87,6 +88,8 @@
                 <p class="text-muted mb-0">{{userInfos.email}}</p>
               </div>
             </div>
+            {% else %} 
+            {% endif %}
             <hr>
             <div class="row">
               <div class="col-sm-3">
