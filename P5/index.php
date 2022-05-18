@@ -78,7 +78,22 @@ try { // On essaie de faire des choses
                 // Autre exception
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
-        }    
+        }
+        elseif ($_GET['action'] == 'changeBio') {
+            if (isset($_GET['id']) && $_GET['id'] > 0) {
+                if (!empty($_POST['userbio'])){
+                    $bio = $_POST['userbio'];
+                    changeBio($_GET['id'], $bio);
+                }
+                else {
+                    throw new Exception('Veuillez écrire une description !');
+                }    
+            }
+            else {
+                // Autre exception
+                throw new Exception('Aucun identifiant de billet envoyé');
+            }
+        }   
     }
     else {
         home();

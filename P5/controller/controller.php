@@ -136,7 +136,7 @@ function accountPage(){
         'userid' => $_SESSION['id'] ?? null,
         'userInfos' => $user,
         'posts' => $posts,
-        'comment' => $comments,
+        'comments' => $comments,
     ]);
 }
 
@@ -155,7 +155,27 @@ function changePP($id, $profilepicture)
         }
     }
     else{
-        echo("vous n'etes pas le bon user");
+        echo("vous n'etes pas le bon utilisateur");
+    }
+
+}
+
+function changeBio($id, $bio)
+{
+    if($id = $_SESSION['id']){
+        $id = $_SESSION['id'];
+        $userManager = new UserManager(); 
+        $user = $userManager->editBio($id, $bio);
+        
+        if ($affectedLines === false) {
+            throw new Exception("Impossible de changer la bio");
+        }
+        else {
+            header('Location: account/' . $id);
+        }
+    }
+    else{
+        echo("vous n'etes pas le bon utilisateur");
     }
 
 }

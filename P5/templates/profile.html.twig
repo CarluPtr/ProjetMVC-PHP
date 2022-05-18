@@ -34,29 +34,18 @@
           {% endif %}   
             <h5 class="my-3">{{userInfos.username}}</h5> 
             <h5 class="my-3 fw-light">{{userInfos.prenom}} {{userInfos.nom}}</h5>
-            <p class="text-muted mb-1">{{userInfos.description}}</p>
+            <p class="text-muted pb-2">{{userInfos.description}}</p>
           {% if userid == userInfos.id %}
           
           <!--FILE FORM -->
           
             <div class="row justify-content-center mb-2">
               <div class="col-6">
-                <button type="button" class="btn btn-dark">Changer votre description</button>
+                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#descriptionModal">Changer votre description</button>
               </div>
-
               <div class="col-6">
-                <form method="POST" 
-                action="/{{ MAIN_FILE }}/index.php?action=changePP&amp;id={{userInfos.id}}"
-                enctype="multipart/form-data">
-                  <div class="form-group">
-                    <label for="profilepic" class="btn btn-outline-dark ">Mettre à jour la photo de profil</label>
-                    <input type="file" id="profilepic" name="profilepic" class="form-control"/>
-                    <label for="save-img" class="btn btn-secondary mt-2">Valider la photo</label>
-                    <input type="submit" id="save-img" class="invisible" name="save-img" class="form-control"/>
-                  </div>
-              </div>  
-
-              </form>
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#imgModal">Changer votre image de profil</button>
+              </div>
             </div>
 
           {% else %} 
@@ -65,6 +54,59 @@
           </div>
         </div>
       </div>
+
+
+<!-- Modal Description -->
+<div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="descriptionModalLabel">Création du post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/{{ MAIN_FILE }}/index.php?action=changeBio&amp;id={{userInfos.id}}" method="post">
+          <div class="form-group">
+              <label for="userbio" class="form-label">Votre description</label>
+              <textarea class="form-control" name="userbio" id="userbio" rows="3">{{userInfos.description}}</textarea>
+              <input type="submit" id="save-bio" class="invisible" name="save-bio" class="form-control"/>        
+          </div>
+        </form>          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <label for="save-bio" class="btn btn-primary mt-2">Valider la description</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Profile Picture -->
+<div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imgModalLabel">Création du post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+                <form method="POST" 
+                action="/{{ MAIN_FILE }}/index.php?action=changePP&amp;id={{userInfos.id}}"
+                enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="profilepic" class="btn btn-dark ">Choisir la photo de profil</label>
+                    <input type="file" id="profilepic" name="profilepic" class="form-control"/>
+                    <input type="submit" id="save-img" class="invisible" name="save-img" class="form-control"/>
+                  </div>
+              </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <label for="save-img" class="btn btn-primary mt-2">Valider la photo</label>
+      </div>
+    </div>
+  </div>
+</div>
 
 
       <div class="col-lg-8">
@@ -152,11 +194,11 @@
 
      <div class="col-8">
      <h3 class='py-2 fw-light'>Commentaires de l'utilisateur</h3>
-    {% for comments in comment |filter(comments => comments.comment_date_fr > 0)%}
+    {% for comment in comments |filter(comments => comments.comment_date_fr > 0)%}
         <div class="container py-2">
                   <div class="card card-body">
-                      <p><strong>{{userInfos.username}}</strong> le <span class='fw-light'>{{comments.comment_date_fr}}</span> </p>
-                      <p>{{comments.comment}}</p>
+                      <p><strong>{{userInfos.username}}</strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
+                      <p>{{comment.comment}}</p>
                   </div>
           </div>    
 

@@ -24,7 +24,7 @@ class CommentManager extends Manager
     public function getUserComments($userid)
     {
         $db = $this->dbConnect();
-        $sql = 'SELECT id, user_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%i\') AS comment_date_fr FROM comments WHERE user_id =' . $userid;
+        $sql = 'SELECT id, user_id, comment, post_id, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%i\') AS comment_date_fr FROM comments WHERE user_id =' . $userid;
         $req = $db->query($sql);
 
         return $req;

@@ -134,5 +134,15 @@ class UserManager extends Manager
         return $affectedLines;
     }
 
+    public function editBio($id, $bio){
+
+        $db = $this->dbConnect();
+        $stmt = $db->prepare("UPDATE user SET description = ? WHERE id = '$id'");
+        $affectedLines = $stmt->execute(array($bio));
+
+
+        return $affectedLines;
+    }
+
 }
 
