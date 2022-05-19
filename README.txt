@@ -1,3 +1,7 @@
+A full BLOG programmed in PHP on MVC architecture & Twig.
+
+### Instructions
+
 Clone this repo and SLIDE ONLY the P5 folder inside your www PATH.
 
 Import the blogp5 database inside your phpMyAdmin
