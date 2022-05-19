@@ -9,18 +9,21 @@ body {
   margin-right: 0!important;
 }
 
-  @media (max-width: 991.98px) { 
-    .post-img {
-      max-width: 70vw!important;
-  }
-}
 
-input[type="file"] {
+#profilepic {
   display: none;
 }
-.custom-file-upload {
-  border: 1px solid #ccc;
-  display: inline-block;
-  padding: 6px 12px;
-  cursor: pointer;
+
+.truncate{
+  display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+@media (max-width: 991.98px) { 
+  .post-img {
+    max-width: 70vw!important;
+}
 }

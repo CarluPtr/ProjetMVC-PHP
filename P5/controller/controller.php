@@ -62,6 +62,22 @@ function addComment($postId, $utilisateur, $comment)
     }
 }
 
+function addPost($utilisateur, $title, $content, $postimg)
+{
+    $utilisateur = $_SESSION['id'];
+
+    $postManager = new PostManager();
+
+    $affectedLines = $postManager->postPost($utilisateur, $title, $content, $postimg);
+
+    if ($affectedLines === false) {
+        throw new Exception('Impossible d\'ajouter le post !');
+    }
+    else {
+        header('Location: index.php?action=listPosts');
+    }
+}
+
 function register(){
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);

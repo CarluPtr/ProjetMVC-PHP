@@ -61,7 +61,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="descriptionModalLabel">Création du post</h5>
+        <h5 class="modal-title" id="descriptionModalLabel">Changer la description</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -86,7 +86,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="imgModalLabel">Création du post</h5>
+        <h5 class="modal-title" id="imgModalLabel">Changer l'image de profil</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -177,7 +177,7 @@
             <div class="card-body">
               <h5 class="card-title">{{blogpost.title}}</h5>
               <p class="fw-light fs-5">le {{blogpost.creation_date_fr}}</p>
-              <p class="card-text">{{blogpost.content}}</p>
+              <p class="card-text truncate">{{blogpost.content}}</p>
               <a href="/{{ MAIN_FILE }}/post/{{blogpost.id}}"><button class="btn btn-outline-dark">Voir les commentaires</button></a>
             </div>
           </div>
@@ -194,7 +194,7 @@
 
      <div class="col-8">
      <h3 class='py-2 fw-light'>Commentaires de l'utilisateur</h3>
-    {% for comment in comments |filter(comments => comments.comment_date_fr > 0)%}
+    {% for comment in comments %}
         <div class="container py-2">
                   <div class="card card-body">
                       <p><strong>{{userInfos.username}}</strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>

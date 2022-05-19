@@ -32,6 +32,17 @@ try { // On essaie de faire des choses
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         }
+        elseif ($_GET['action'] == 'addPost') {
+            if (!empty($_POST['inputTitle']) && !empty($_POST['inputContent']) && !empty($_FILES['postimg']['tmp_name'])) {
+                $postimg = $_FILES['postimg'];
+                addPost($_SESSION['id'], $_POST['inputTitle'], $_POST['inputContent'], $postimg);
+            }
+            else {
+                // Autre exception
+                throw new Exception('Tous les champs ne sont pas remplis !');
+            }
+
+        }
         elseif ($_GET['action'] == 'register'){
             register();
         }

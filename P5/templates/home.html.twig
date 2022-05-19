@@ -17,8 +17,8 @@
         <p class="lead">"Étudiant en développement web / Openclassrooms - PHP / Symfony chez Openclassrooms"</p>
         <div class="d-flex align-items-center gap-2 d-md-flex justify-content-md-start">
           <a href="public/pdf/CV-for-projets.pdf" target="_blank"><button type="button" class="btn btn-dark btn-lg px-4 me-md-2"><i class="far fa-file-pdf"></i> Voir mon CV</button></a>
-          <i class="fab fa-github fa-2x mx-1"></i>
-          <i class="fab fa-linkedin fa-2x mx-1"></i>
+          <a href="https://github.com/CarluPtr" class="text-dark"><i class="fab fa-github fa-2x mx-1"></i></a>
+          <a href="https://www.linkedin.com/in/carlu-pietri/" class="text-dark"><i class="fab fa-linkedin fa-2x mx-1"></i></a>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
           <h3 class="fw-bold">{{blogpost.title}}</h3>
           <p class="fw-light fs-5">le {{blogpost.creation_date_fr}}</p>
           
-          <p class="mt-auto">
+          <p class="mt-auto truncate">
               {{blogpost.content}}
           </p>
           <a href="{{ YOUR_BASE_URL }}/{{ MAIN_FILE }}/post/{{blogpost.id}}" class="mt-auto"><button class="btn btn-outline-dark ">Voir le post</button></a>

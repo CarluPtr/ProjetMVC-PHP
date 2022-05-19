@@ -8,6 +8,7 @@
         <a href="/{{MAIN_FILE}}/list/"><button class="btn btn-outline-dark mb-5">Retour à la liste des billets</button></a> 
         <div class="container px-5">
             <h1 class="fw-bold">{{post.title}}</h1>
+            <p class="fs-5">par <a href="http://localhost/P5/account/{{post.user_id}}">{{post.username}}</a></p>
             <p class="fw-light fs-5">le {{post.creation_date_fr}}</p>
         </div> 
         <div class="row">
@@ -43,19 +44,22 @@
 
         {% for comment in comments %}
 
-        
             <div class="container py-2">
                 <div class="card card-body">
 
                  {% if comment.profile_picture %}
                     <img src="data:image/png;, {{comment.profile_picture| url_encode}}" alt="avatar"
-                    class="rounded-circle img-fluid" style="width: 50px; height: 50px;">
+                    class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;">
                 {% else %}    
                     <img src="/{{ MAIN_FILE }}/public/images/no-img.png" alt="avatar"
-                    class="rounded-circle img-fluid" style="width: 50px; height: 50px;" loading="lazy">
+                    class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;" loading="lazy">
                 {% endif %}
                     <p><strong><a href='/{{MAIN_FILE}}/account/{{comment.user_id}}'>{{comment.username}}</a></strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> </p>
+                    {% if comment.is_valid %}
                     <p>{{comment.comment}}</p>
+                    {% else %}
+                    <p>Le commentaire est en cours d'analyse...</p>
+                    {% endif %}
                 </div>
             </div>
 
