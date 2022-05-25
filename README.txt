@@ -1,4 +1,3 @@
-
 Import the blogp5 database inside your phpMyAdmin
 
 -> cd /www/P5
