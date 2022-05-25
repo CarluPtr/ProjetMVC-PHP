@@ -1,8 +1,6 @@
-Clone this repo and SLIDE ONLY the P5 folder inside your www PATH.
-
 Import the blogp5 database inside your phpMyAdmin
 
--> cd /www/P5
+-> cd /www/ProjetMVC-PHP
 
 Then do a 
 
