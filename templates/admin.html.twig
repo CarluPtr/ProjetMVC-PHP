@@ -1,0 +1,72 @@
+{% extends 'template.html.twig' %}
+
+
+{% block body %}
+
+<section class="pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <h3 class='py-2 fw-light'>Posts de du blog</h3>
+                {% for blogpost in posts %}
+
+          <div class="card mb-3">
+            <img src="data:image/png;, {{blogpost.img| url_encode}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{blogpost.title}}</h5>
+              <p class="fw-light fs-5">le {{blogpost.creation_date_fr}}</p>
+              <p class="card-text truncate">{{blogpost.content}}</p>
+              <a href="/{{ MAIN_FILE }}/post/{{blogpost.id}}"><button class="btn btn-outline-dark">Voir les commentaires</button></a>
+              <a href="/{{ MAIN_FILE }}//index.php?action=deletepost&amp;id={{blogpost.id}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
+            </div>
+          </div>
+      {% endfor %}
+
+            </div>
+            <div class="col-4">
+                <h3 class='py-2 fw-light'>Commentaires non vérifiés</h3>
+                {% for comment in new_comments %}
+                    <div class="container py-2">
+                    <div class="card card-body">
+
+                    {% if comment.profile_picture %}
+                        <img src="data:image/png;, {{comment.profile_picture| url_encode}}" alt="avatar"
+                        class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;">
+                    {% else %}    
+                        <img src="/{{ MAIN_FILE }}/public/images/no-img.png" alt="avatar"
+                        class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;" loading="lazy">
+                    {% endif %}
+                        <p><strong><a href='/{{MAIN_FILE}}/account/{{comment.user_id}}'>{{comment.username}}</a></strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
+                        <p>{{comment.comment}}</p>
+                        <a href="/{{ MAIN_FILE }}/validate/{{comment.id}}"><button class="btn btn-outline-dark">Valider le commentaire</button></a>
+                        <a href="/{{ MAIN_FILE }}//index.php?action=deletecom&amp;id={{comment.id}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
+                    </div>
+                </div>  
+                {% endfor %}
+            </div>
+
+            <div class="col-4">
+                <h3 class='py-2 fw-light'>Commentaires validés</h3>
+                {% for comment in valided_comments %}
+                    <div class="container py-2">
+                    <div class="card card-body">
+
+                    {% if comment.profile_picture %}
+                        <img src="data:image/png;, {{comment.profile_picture| url_encode}}" alt="avatar"
+                        class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;">
+                    {% else %}    
+                        <img src="/{{ MAIN_FILE }}/public/images/no-img.png" alt="avatar"
+                        class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;" loading="lazy">
+                    {% endif %}
+                        <p><strong><a href='/{{MAIN_FILE}}/account/{{comment.user_id}}'>{{comment.username}}</a></strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
+                        <p>{{comment.comment}}</p>
+                        <a href="/{{ MAIN_FILE }}//index.php?action=deletecom&amp;id={{comment.id}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
+                    </div>
+                </div>  
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>    
+{% endblock %}

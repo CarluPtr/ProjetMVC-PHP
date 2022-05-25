@@ -60,7 +60,7 @@ class UserManager extends Manager
             
             // On regarde si l'utilisateur est inscrit dans la table utilisateurs
             $db = $this->dbConnect();
-            $check = $db->prepare('SELECT id, username, email, password FROM user WHERE email = ?');
+            $check = $db->prepare('SELECT id, username, email, is_admin, password FROM user WHERE email = ?');
             $check->execute(array($email));
             $data = $check->fetch();
             $row = $check->rowCount();
@@ -78,7 +78,8 @@ class UserManager extends Manager
                         session_start(); 
                         $_SESSION['username'] = $data['username'];
                         $_SESSION['id'] = $data['id'];
-                        return $check;
+                        $_SESSION['is_admin'] = $data['is_admin'];
+
 
                     }
                     else

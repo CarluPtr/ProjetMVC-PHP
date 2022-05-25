@@ -75,6 +75,24 @@ try { // On essaie de faire des choses
                 accountPage($_GET['id']);
             }
         }
+        elseif ($_GET['action'] == 'admin'){
+            if($_SESSION['is_admin']){
+                adminPannel();
+            }
+            else{
+                throw new Exception("Vous n'avez pas la permission d'accéder à cette page !");
+            }
+        }
+        elseif ($_GET['action'] == 'deletecom'){
+            if (isset($_GET['id']) && $_GET['id'] > 0) {
+                deleteComController($_GET['id']);
+            }
+        }
+        elseif ($_GET['action'] == 'deletepost'){
+            if (isset($_GET['id']) && $_GET['id'] > 0) {
+                deletePostController($_GET['id']);
+            }
+        }
         elseif ($_GET['action'] == 'changePP') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if(!empty($_FILES['profilepic']['tmp_name'])){

@@ -198,7 +198,11 @@
         <div class="container py-2">
                   <div class="card card-body">
                       <p><strong>{{userInfos.username}}</strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
+                      {% if comment.is_valid %}
                       <p>{{comment.comment}}</p>
+                      {% else %}
+                      <p>Le commentaire est en cours de vérification...</p>
+                      {% endif %}
                   </div>
           </div>    
 

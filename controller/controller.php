@@ -3,6 +3,7 @@
 require_once('model/PostManager.php');
 require_once('model/CommentManager.php');
 require_once('model/UserManager.php');
+require_once('model/AdminManager.php');
 
 
 require_once 'vendor/autoload.php';
@@ -23,6 +24,7 @@ function listPosts()
   echo $twig->render('blog.html.twig', [
     'post' => $posts,
     'userid' => $_SESSION['id'] ?? null,
+    'is_admin' => $_SESSION['is_admin'] ?? null,
   ] );
 }
 
@@ -43,6 +45,7 @@ function post()
         'post' => $post,
         'comments' => $comments,
         'userid' => $_SESSION['id'] ?? null,
+        'is_admin' => $_SESSION['is_admin'] ?? null,
         ]);
 }
 
@@ -150,9 +153,32 @@ function accountPage(){
     
     echo $twig->render('profile.html.twig', [
         'userid' => $_SESSION['id'] ?? null,
+        'is_admin' => $_SESSION['is_admin'] ?? null,
         'userInfos' => $user,
         'posts' => $posts,
         'comments' => $comments,
+    ]);
+}
+
+function adminPannel(){
+
+    $loader = new FilesystemLoader('templates');
+    $twig = new Environment($loader);
+    
+
+    $postManager = new PostManager();
+    $posts = $postManager->getPosts();
+
+    $commentManager = new CommentManager();
+    $newComments = $commentManager->getAllNewComments();
+    $validedComments = $commentManager->getAllValidedComments();
+    
+    echo $twig->render('admin.html.twig', [
+        'userid' => $_SESSION['id'] ?? null,
+        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'posts' => $posts,
+        'new_comments' => $newComments,
+        'valided_comments' => $validedComments,
     ]);
 }
 
@@ -195,6 +221,37 @@ function changeBio($id, $bio)
     }
 
 }
+function deleteComController($id)
+{
+    
+        $adminManager = new AdminManager(); 
+        $admin = $adminManager->deleteComment($id);
+        
+        if ($affectedLines === false) {
+            throw new Exception("Impossible de supprimer le commentaire");
+        }
+        else {
+            header('Location: admin/');
+        }
+
+
+}
+
+function deletePostController($id)
+{
+    
+        $adminManager = new AdminManager(); 
+        $admin = $adminManager->deletePost($id);
+        
+        if ($affectedLines === false) {
+            throw new Exception("Impossible de supprimer le commentaire");
+        }
+        else {
+            header('Location: admin/');
+        }
+
+
+}
 
 
 function home(){
@@ -207,6 +264,7 @@ function home(){
     echo $twig->render('home.html.twig', [
         'post' => $posts,
         'userid' => $_SESSION['id'] ?? null,
+        'is_admin' => $_SESSION['is_admin'] ?? null,
     ]);
 }
 
