@@ -1,0 +1,220 @@
+{% extends 'template.html.twig' %}
+
+{% block body %}
+
+{% if userInfos == null %}
+
+
+<div class="card text-center">
+  <div class="card-header">Wow !</div>
+  <div class="card-body">
+    <h5 class="card-title">Cette page n'existe pas</h5>
+    <p class="card-text">Cliquez sur le bouton ci-dessous pour vous rediriger vers la page d'accueil</p>
+    <a href="/{{MAIN_FILE}}/accueil" class="btn btn-primary">Home</a>
+  </div>
+</div>
+
+
+{% else %}
+
+
+<section class="pt-5 py-5">
+<div class="container py-5">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+          {% if userInfos.profile_picture %}
+            <img src="data:image/png;, {{userInfos.profile_picture| url_encode}}" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
+          {% else %}    
+            <img src="/{{ MAIN_FILE }}/public/images/no-img.png" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px; height: 150px;" loading="lazy">
+          {% endif %}   
+            <h5 class="my-3">{{userInfos.username}}</h5> 
+            <h5 class="my-3 fw-light">{{userInfos.prenom}} {{userInfos.nom}}</h5>
+            <p class="text-muted pb-2">{{userInfos.description}}</p>
+          {% if userid == userInfos.id %}
+          
+          <!--FILE FORM -->
+          
+            <div class="row justify-content-center mb-2">
+              <div class="col-6">
+                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#descriptionModal">Changer votre description</button>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#imgModal">Changer votre image de profil</button>
+              </div>
+            </div>
+
+          {% else %} 
+
+          {% endif %}
+          </div>
+        </div>
+      </div>
+
+
+<!-- Modal Description -->
+<div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="descriptionModalLabel">Changer la description</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/{{ MAIN_FILE }}/index.php?action=changeBio&amp;id={{userInfos.id}}" method="post">
+          <div class="form-group">
+              <label for="userbio" class="form-label">Votre description</label>
+              <textarea class="form-control" name="userbio" id="userbio" rows="3">{{userInfos.description}}</textarea>
+              <input type="submit" id="save-bio" class="invisible" name="save-bio" class="form-control"/>        
+          </div>
+        </form>          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <label for="save-bio" class="btn btn-primary mt-2">Valider la description</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Profile Picture -->
+<div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imgModalLabel">Changer l'image de profil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+                <form method="POST" 
+                action="/{{ MAIN_FILE }}/index.php?action=changePP&amp;id={{userInfos.id}}"
+                enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="profilepic" class="btn btn-dark ">Choisir la photo de profil</label>
+                    <input type="file" id="profilepic" name="profilepic" class="form-control"/>
+                    <input type="submit" id="save-img" class="invisible" name="save-img" class="form-control"/>
+                  </div>
+              </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <label for="save-img" class="btn btn-primary mt-2">Valider la photo</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Nom complet</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userInfos.prenom}} {{userInfos.nom}}</p>
+              </div>
+            </div>
+            {% if userid == userInfos.id %}
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userInfos.email}}</p>
+              </div>
+            </div>
+            {% else %} 
+            {% endif %}
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Date inscription</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{userInfos.date_inscription}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Rôle</p>
+              </div>
+              <div class="col-sm-9">
+
+                {% if userInfos.is_admin == 1 %}
+
+                <p class="text-muted mb-0">Administrateur</p>
+
+                {% else %}
+
+                <p class="text-muted mb-0">Utilisateur</p>
+
+                {% endif %}  
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+
+      <div class="col-4">
+      <h3 class='py-2 fw-light'>Posts de l'utilisateur</h3>
+      {% for blogpost in posts %}
+
+        {% if blogpost %}
+          <div class="card mb-3">
+            <img src="data:image/png;, {{blogpost.img| url_encode}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{blogpost.title}}</h5>
+              <p class="fw-light fs-5">le {{blogpost.creation_date_fr}}</p>
+              <p class="card-text truncate">{{blogpost.content}}</p>
+              <a href="/{{ MAIN_FILE }}/post/{{blogpost.id}}"><button class="btn btn-outline-dark">Voir les commentaires</button></a>
+            </div>
+          </div>
+        {% else %}
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <p class="mb-0">L'utilisateur n'a pas de posts.</p>
+            </div>
+          </div>  
+        {% endif %}  
+      {% endfor %}      
+      </div>
+
+
+     <div class="col-8">
+     <h3 class='py-2 fw-light'>Commentaires de l'utilisateur</h3>
+    {% for comment in comments %}
+        <div class="container py-2">
+                  <div class="card card-body">
+                      <p><strong>{{userInfos.username}}</strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
+                      {% if comment.is_valid %}
+                      <p>{{comment.comment}}</p>
+                      {% else %}
+                      <p>Le commentaire est en cours de vérification...</p>
+                      {% endif %}
+                  </div>
+          </div>    
+
+    {% endfor %}
+      </div>  
+
+
+    </div>  
+
+  </div>
+</section>
+
+{% endif %}
+
+{% endblock %}

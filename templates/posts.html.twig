@@ -1,0 +1,70 @@
+{% extends 'template.html.twig' %}
+
+
+{% block body %}
+
+<section class="pt-5">
+    <div class="container">
+        <a href="/{{MAIN_FILE}}/list/"><button class="btn btn-outline-dark mb-5">Retour à la liste des billets</button></a> 
+        <div class="container px-5">
+            <h1 class="fw-bold">{{post.title}}</h1>
+            <p class="fs-5">par <a href="/{{MAIN_FILE}}/account/{{post.user_id}}">{{post.username}}</a></p>
+            <p class="fw-light fs-5">le {{post.creation_date_fr}}</p>
+        </div> 
+        <div class="row">
+            <div class="post-image-container text-center">
+            <img src="data:image/png;, {{post.img| url_encode}}" class="post-img" alt="...">   
+            </div> 
+        </div>  
+        <div class="container px-5 mt-5">            
+            <p class="fw-bold fs-5">{{post.content}}</p>
+        </div>    
+<hr class="dropdown-divider my-5">
+                <h3 class="pb-5">Commentaires</h3>
+<!-- Form -->
+
+        <div class="row">
+                <form action="/{{ MAIN_FILE }}/index.php?action=addComment&amp;id={{post.id}}" method="post">
+            <div class="col-9">        
+                    <div>
+                        <label for="comment" class="form-label">Commentaire</label><br />
+                        <textarea id="comment" class="form-control" name="comment"></textarea>
+                    </div>
+                    <div>
+                        <input class="btn btn-dark mt-3" type="submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+            
+        </div>
+    </section>     
+    <section class="py-5 mt-5 bg-light">
+    
+
+        {% for comment in comments %}
+
+            <div class="container py-2">
+                <div class="card card-body">
+
+                 {% if comment.profile_picture %}
+                    <img src="data:image/png;, {{comment.profile_picture| url_encode}}" alt="avatar"
+                    class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;">
+                {% else %}    
+                    <img src="/{{ MAIN_FILE }}/public/images/no-img.png" alt="avatar"
+                    class="rounded-circle img-fluid mb-1" style="width: 50px; height: 50px;" loading="lazy">
+                {% endif %}
+                    <p><strong><a href='/{{MAIN_FILE}}/account/{{comment.user_id}}'>{{comment.username}}</a></strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> </p>
+                    {% if comment.is_valid %}
+                    <p>{{comment.comment}}</p>
+                    {% else %}
+                    <p>Le commentaire est en cours de vérification...</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endfor %}
+
+
+    </section>          
+    {% endblock %}

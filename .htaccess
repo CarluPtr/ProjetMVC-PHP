@@ -1,0 +1,12 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteRule ^list ./index.php?action=listPosts
+RewriteRule ^register ./index.php?action=register
+RewriteRule ^login ./index.php?action=login
+RewriteRule ^logout ./index.php?action=logout
+RewriteRule ^email ./index.php?action=sendemail
+RewriteRule ^admin ./index.php?action=admin
+RewriteRule ^account/([0-9]+)$ ./index.php?action=account&id=$1
+RewriteRule ^post/([0-9]+)$ ./index.php?action=post&id=$1
+RewriteRule ^accueil ./index.php

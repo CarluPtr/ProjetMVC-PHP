@@ -1,0 +1,9 @@
+{
+    "name": "carlu/p5",
+    "require-dev": {
+        "twig/twig": "^3.3"
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.6"
+    }
+}
