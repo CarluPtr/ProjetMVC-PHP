@@ -112,7 +112,7 @@ class UserManager extends Manager
         }
     }
 
-    public function getUser($id){
+    public function getUser(int $id){
 
         $db = $this->dbConnect();
         $req = $db->prepare('SELECT id, prenom, nom, username, email, profile_picture, description, is_admin, DATE_FORMAT(date_inscription, \'%d/%m/%Y\') AS date_inscription FROM user WHERE id = ?');
@@ -135,7 +135,7 @@ class UserManager extends Manager
         return $affectedLines;
     }
 
-    public function editBio($id, $bio){
+    public function editBio(int $id, $bio){
 
         $db = $this->dbConnect();
         $stmt = $db->prepare("UPDATE user SET description = ? WHERE id = '$id'");

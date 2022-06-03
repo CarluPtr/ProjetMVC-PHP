@@ -58,6 +58,15 @@ try { // On essaie de faire des choses
                 throw new Exception('Tous les champs ne sont pas remplis !');
             }
         }
+        elseif ($_GET['action'] == 'sendemail'){
+            if(!empty($_POST['inputName'])&& !empty($_POST['inputLastName'])&& !empty($_POST['inputEmail'])&& !empty($_POST['inputSubject'])&& !empty($_POST['inputMessage'])){
+                emailController(($_POST['inputName']), ($_POST['inputLastName']), ($_POST['inputEmail']), ($_POST['inputSubject']), ($_POST['inputMessage']));
+            }
+            else {
+                // Autre exception
+                throw new Exception('Tous les champs ne sont pas remplis !');
+            }
+        }
         elseif ($_GET['action'] == 'logInAccount'){
             if(!empty($_POST['email'])&& !empty($_POST['password'])){
                 logInAction($_POST['email'], $_POST['password']);
@@ -91,6 +100,11 @@ try { // On essaie de faire des choses
         elseif ($_GET['action'] == 'deletepost'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 deletePostController($_GET['id']);
+            }
+        }
+        elseif ($_GET['action'] == 'validate'){
+            if (isset($_GET['id']) && $_GET['id'] > 0) {
+                validateComController($_GET['id']);
             }
         }
         elseif ($_GET['action'] == 'changePP') {

@@ -3,7 +3,7 @@ require_once("model/Manager.php");
 
 class AdminManager extends Manager
 {
-    public function deleteComment($id)
+    public function deleteComment(int $id)
     {
         $db = $this->dbConnect();
         $comments = $db->prepare('DELETE FROM comments WHERE id = ?');
@@ -12,11 +12,21 @@ class AdminManager extends Manager
         return $affectedLines;
     }
 
-    public function deletePost($id)
+    public function deletePost(int $id)
     {
         $db = $this->dbConnect();
         $comments = $db->prepare('DELETE FROM posts WHERE id = ?');
         $affectedLines = $comments->execute(array($id));
+
+        return $affectedLines;
+    }
+
+    public function validateComment(int $id){
+
+        $db = $this->dbConnect();
+        $stmt = $db->prepare('UPDATE comments SET is_valid = 1 WHERE id = ?');
+        $affectedLines = $stmt->execute(array($id));
+
 
         return $affectedLines;
     }

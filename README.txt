@@ -1,7 +1,9 @@
+The project works on PHP 7.4 and needs apache for the .htaccess
+
 Import the blogp5 database inside your phpMyAdmin
 
--> cd /www/ProjetMVC-PHP
+-> cd /www/ProjectMVC-PHP
 
 Then do a 
 
--> composer require "twig/twig: ^3.3.10"
+-> composer install

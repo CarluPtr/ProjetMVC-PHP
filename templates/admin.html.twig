@@ -5,9 +5,23 @@
 
 <section class="pt-5">
     <div class="container">
+
+    <div class="row sticky-top" id="admin-nav">
+        <div class="col-4">
+            <a href="#Blog-Posts"><h5 class='py-2 fw-light btn btn-primary'>Posts de la communauté</h5></a>
+        </div>
+        <div class="col-4">
+            <a href="#Non-Verified-Comments"><h5 class='py-2 fw-light btn btn-primary'>Commentaires non vérifiés</h5></a>
+        </div>
+        <div class="col-4">
+            <a href="#Verified-Comments"><h5 class='py-2 fw-light btn btn-primary'>Commentaires vérifiés</h5></a>
+        </div>
+    </div>    
+
         <div class="row">
-            <div class="col-4">
-                <h3 class='py-2 fw-light'>Posts de du blog</h3>
+            <div class="col-12 col-md-4">
+                <div id="Blog-Posts"></div>
+                <h3 class='py-2 fw-light admin-pannel'>Posts de du blog</h3>
                 {% for blogpost in posts %}
 
           <div class="card mb-3">
@@ -23,8 +37,9 @@
       {% endfor %}
 
             </div>
-            <div class="col-4">
-                <h3 class='py-2 fw-light'>Commentaires non vérifiés</h3>
+            <div class="col-12 col-md-4">
+                <div id="Non-Verified-Comments"></div>
+                <h3 class='py-2 fw-light admin-pannel'>Commentaires non vérifiés</h3>
                 {% for comment in new_comments %}
                     <div class="container py-2">
                     <div class="card card-body">
@@ -38,15 +53,15 @@
                     {% endif %}
                         <p><strong><a href='/{{MAIN_FILE}}/account/{{comment.user_id}}'>{{comment.username}}</a></strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
                         <p>{{comment.comment}}</p>
-                        <a href="/{{ MAIN_FILE }}/validate/{{comment.id}}"><button class="btn btn-outline-dark">Valider le commentaire</button></a>
+                        <a href="/{{ MAIN_FILE }}//index.php?action=validate&amp;id={{comment.id}}"><button class="btn btn-outline-dark">Valider le commentaire</button></a>
                         <a href="/{{ MAIN_FILE }}//index.php?action=deletecom&amp;id={{comment.id}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
                     </div>
                 </div>  
                 {% endfor %}
             </div>
-
-            <div class="col-4">
-                <h3 class='py-2 fw-light'>Commentaires validés</h3>
+            <div class="col-12 col-md-4">
+                <div id="Verified-Comments"></div>
+                <h3 class='py-2 fw-light admin-pannel'>Commentaires validés</h3>
                 {% for comment in valided_comments %}
                     <div class="container py-2">
                     <div class="card card-body">
@@ -60,7 +75,7 @@
                     {% endif %}
                         <p><strong><a href='/{{MAIN_FILE}}/account/{{comment.user_id}}'>{{comment.username}}</a></strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
                         <p>{{comment.comment}}</p>
-                        <a href="/{{ MAIN_FILE }}//index.php?action=deletecom&amp;id={{comment.id}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
+                        <a href="/{{ MAIN_FILE }}//index.php?action=deletecom&amp;id={{comment.commentid}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
                     </div>
                 </div>  
                 {% endfor %}

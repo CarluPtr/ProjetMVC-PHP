@@ -11,7 +11,7 @@ class PostManager extends Manager
         return $req;
     }
 
-    public function getPost($postId)
+    public function getPost(int $postId)
     {
         $db = $this->dbConnect();
         $req = $db->prepare('SELECT posts.id, username, user_id, title, content, img, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%i\') AS creation_date_fr FROM posts LEFT JOIN user ON posts.user_id = user.id WHERE posts.id = ?');
@@ -34,7 +34,7 @@ class PostManager extends Manager
         return $affectedLines;
     }
 
-    public function getUserPosts($userid)
+    public function getUserPosts(int $userid)
     {
         $db = $this->dbConnect();
         $sql = 'SELECT id, title, content, img, user_id, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%i\') AS creation_date_fr FROM posts WHERE user_id =' . $userid . ' ORDER BY creation_date_fr DESC';

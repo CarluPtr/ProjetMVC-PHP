@@ -4,6 +4,7 @@ require_once('model/PostManager.php');
 require_once('model/CommentManager.php');
 require_once('model/UserManager.php');
 require_once('model/AdminManager.php');
+require_once('model/MailManager.php');
 
 
 require_once 'vendor/autoload.php';
@@ -26,6 +27,13 @@ function listPosts()
     'userid' => $_SESSION['id'] ?? null,
     'is_admin' => $_SESSION['is_admin'] ?? null,
   ] );
+}
+
+function emailController($firstname, $birthname, $email, $subject, $message){
+
+    $emailManager = new MailManager();
+    $email = $emailManager->sendemail($firstname, $birthname, $email, $subject, $message);
+    header('Location: index.php');
 }
 
 function post()
@@ -52,10 +60,11 @@ function post()
 function addComment($postId, $utilisateur, $comment)
 {
     $utilisateur = $_SESSION['id'];
+    $is_admin = $_SESSION['is_admin'];
 
     $commentManager = new CommentManager();
 
-    $affectedLines = $commentManager->postComment($postId, $utilisateur, $comment);
+    $affectedLines = $commentManager->postComment($postId, $utilisateur, $comment, $is_admin);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible d\'ajouter le commentaire !');
@@ -234,7 +243,6 @@ function deleteComController($id)
             header('Location: admin/');
         }
 
-
 }
 
 function deletePostController($id)
@@ -245,6 +253,20 @@ function deletePostController($id)
         
         if ($affectedLines === false) {
             throw new Exception("Impossible de supprimer le commentaire");
+        }
+        else {
+            header('Location: admin/');
+        }
+
+}
+
+function validateComController($id)
+{
+        $adminManager = new AdminManager(); 
+        $admin = $adminManager->validateComment($id);
+        
+        if ($affectedLines === false) {
+            throw new Exception("Impossible de valider le commentaire");
         }
         else {
             header('Location: admin/');
