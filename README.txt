@@ -1,4 +1,4 @@
-The project works on PHP 7.4 and needs apache for the .htaccess
+The project works on PHP 7.4 and needs nodejs, composer & apache for the .htaccess
 
 Import the blogp5 database inside your phpMyAdmin
 
