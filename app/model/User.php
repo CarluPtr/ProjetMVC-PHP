@@ -10,6 +10,7 @@ class User
     protected $isAdmin;
     protected $email;
     protected $password;
+    protected $retypedPassword;
     protected $username;
     protected $prenom;
     protected $nom;
@@ -31,7 +32,7 @@ class User
         return $this->idUser;
     }
 
-    public function getIsAdmin(): bool
+    public function getIsAdmin(): int
     {
 
         return $this->isAdmin;
@@ -47,6 +48,12 @@ class User
     {
 
         return $this->password;
+    }
+
+    public function getRetypedPassword(): string
+    {
+
+        return $this->retypedPassword;
     }
 
     public function getPrenom(): string
@@ -100,10 +107,10 @@ class User
         }
     }
 
-    public function setIsAdmin(bool $isAdmin)
+    public function setIsAdmin(int $isAdmin)
     {
-
-        $isAdmin = (bool) $isAdmin;
+        if ($isAdmin <= 1)
+        $isAdmin = (int) $isAdmin;
 
         $this->isAdmin = $isAdmin;
     }
@@ -122,6 +129,14 @@ class User
 
         if (is_string($password)) {
             $this->password = $password;
+        }
+    }
+
+    public function setRetypedPassword(string $retypedPassword)
+    {
+
+        if (is_string($retypedPassword)) {
+            $this->retypedPassword = $retypedPassword;
         }
     }
 

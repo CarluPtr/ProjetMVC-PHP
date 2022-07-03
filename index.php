@@ -53,7 +53,7 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'registerAccount'){
             if(!empty($_POST['prenom']) && !empty($_POST['nom']) &&  !empty($_POST['username']) && !empty($_POST['email'])&& !empty($_POST['password']) && !empty($_POST['password_retype'])){
-                registerAction(strip_tags($_POST['prenom']), strip_tags($_POST['nom']), strip_tags($_POST['username']), $_POST['email'], $_POST['password'], $_POST['password_retype']);
+                registerAction(strip_tags($_POST['prenom']), strip_tags($_POST['nom']), strip_tags($_POST['username']), strip_tags($_POST['email']), strip_tags($_POST['password']), strip_tags($_POST['password_retype']));
             }
             else {
                 // Autre exception

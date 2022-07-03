@@ -109,7 +109,7 @@ function register()
     print_r($twig->render('register.html.twig'));
 }
 
-function registerAction($prenom, $nom, $username, $email, $password)
+function registerAction($prenom, $nom, $username, $email, $password, $retypedPassword)
 {
     $userManager = new UserManager();
     $user = new User();
@@ -120,6 +120,7 @@ function registerAction($prenom, $nom, $username, $email, $password)
     $user->setUsername($username);
     $user->setEmail($email);
     $user->setPassword($password);
+    $user->setRetypedPassword($retypedPassword);
 
     $affectedLines = $userManager->registerAccount($user);
 
