@@ -145,5 +145,5 @@ try { // On essaie de faire des choses
     }
 }
 catch(Exception $e) { // S'il y a eu une erreur, alors...
-    echo 'Erreur : ' . $e->getMessage();
+    throw new Exception('Erreur : ' . $e->getMessage());
 }

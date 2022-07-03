@@ -43,7 +43,7 @@ function post()
     $commentManager = new CommentManager();
 
     $post = $postManager->getPost(isset($_GET['id']));
-    $comments = $commentManager->getComments($_GET['id']);
+    $comments = $commentManager->getComments(isset($_GET['id']));
 
     print_r($twig->render('posts.html.twig', [
         'post' => $post,
@@ -220,7 +220,7 @@ function changePP($id, $profilepicture)
             header('Location: account/'.$id);
         }
     } else {
-        echo "vous n'etes pas le bon utilisateur";
+        throw new Exception("vous n'etes pas le bon utilisateur");
     }
 }
 
@@ -237,7 +237,7 @@ function changeBio($id, $bio)
             header('Location: account/'.$id);
         }
     } else {
-        echo "vous n'etes pas le bon utilisateur";
+        throw new Exception("Vous n'etes pas le bon utilisateur");
     }
 }
 function deleteComController($id)
