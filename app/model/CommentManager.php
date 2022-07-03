@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model/Manager.php';
+namespace Model;
 
 class CommentManager extends Manager
 {
@@ -29,12 +29,12 @@ class CommentManager extends Manager
         return $req;
     }
 
-    public function postComment($postId, $utilisateur, $comment, $is_admin)
+    public function postComment(Comment $comment, $is_admin)
     {
         // Admin comments are valid by default
         $db = $this->dbConnect();
         $comments = $db->prepare("INSERT INTO comments(post_id, user_id, comment, comment_date, is_valid) VALUES(?, ?, ?, NOW(), $is_admin)");
-        $affectedLines = $comments->execute([$postId, $utilisateur, $comment]);
+        $affectedLines = $comments->execute([$comment->getIdPost(), $comment->getIdUser(), $comment->getComment()]);
 
         return $affectedLines;
     }

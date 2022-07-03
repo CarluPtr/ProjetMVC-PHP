@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model/Manager.php';
+namespace Model;
 
 class AdminManager extends Manager
 {

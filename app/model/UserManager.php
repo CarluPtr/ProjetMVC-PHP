@@ -1,14 +1,15 @@
 <?php
 
-require_once 'model/Manager.php';
+namespace Model;
 
 class UserManager extends Manager
 {
-    public function registerAccount($prenom, $nom, $username, $email, $password)
+    public function registerAccount(User $user)
     {
-        $username_lenght = strlen($username);
-        $password = strip_tags($password);
+        $username_lenght = strlen($user->getUsername());
+        $password = strip_tags($user->getPassword());
         $password_retype = strip_tags($_POST['password_retype']);
+        $email = $user->getEmail();
 
         if ($username_lenght <= 255) {
             $db = $this->dbConnect();
@@ -23,8 +24,8 @@ class UserManager extends Manager
                         $password = password_hash($password, PASSWORD_BCRYPT, $cost);
 
                         $db = $this->dbConnect();
-                        $comments = $db->prepare('INSERT INTO user(prenom, nom, username, email, password, is_admin, date_inscription) VALUES(?, ?, ?, ?, ?, 0, NOW())');
-                        $affectedLines = $comments->execute([$prenom, $nom, $username, $email, $password]);
+                        $comments = $db->prepare('INSERT INTO user(prenom, nom, username, email, password, is_admin, date_inscription) VALUES(?, ?, ?, ?, ?, ?, NOW())');
+                        $affectedLines = $comments->execute([$user->getPrenom(), $user->getNom(), $user->getUsername(), $email, $password, $user->getIsAdmin()]);
 
                         return $affectedLines;
                     } else {

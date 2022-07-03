@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model/Manager.php';
+namespace Model;
 
 class PostManager extends Manager
 {
@@ -22,14 +22,12 @@ class PostManager extends Manager
         return $post;
     }
 
-    public function postPost($utilisateur, $title, $content, $postimg)
+    public function postPost(Post $post)
     {
-        $image = $postimg['tmp_name'];
-        $img = file_get_contents($image);
 
         $db = $this->dbConnect();
-        $post = $db->prepare('INSERT INTO posts( title, content, img, user_id, creation_date) VALUES(?, ?, ?, ?, NOW())');
-        $affectedLines = $post->execute([$title, $content, $img, $utilisateur]);
+        $postPDO = $db->prepare('INSERT INTO posts( title, content, img, user_id, creation_date) VALUES(?, ?, ?, ?, NOW())');
+        $affectedLines = $postPDO->execute([$post->getTitle(), $post->getContent(), $post->getImg(), $post->getIdUser()]);
 
         return $affectedLines;
     }

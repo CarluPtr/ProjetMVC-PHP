@@ -1,5 +1,6 @@
 <?php
 
+namespace Model;
     // Load Composer's autoloader
     require 'vendor/autoload.php';
             // Import PHPMailer classes into the global namespace
@@ -25,7 +26,7 @@ class MailManager extends PHPMailer
 
         try {
             // Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+            $mail->SMTPDebug = 0;                                       // For production use, No debug messages displayed
             $mail->isSMTP();                                            // Send using SMTP
             $mail->Host = 'smtp.office365.com';                     // Set the SMTP server to send through
             $mail->SMTPAuth = true;                                   // Enable SMTP authentication

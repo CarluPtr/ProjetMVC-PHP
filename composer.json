@@ -1,5 +1,10 @@
 {
-    "name": "carlu/p5",
+    "autoload": {
+        "psr-4": {
+            "Model\\": "app/model"
+        }
+
+    },
 
     "require": {
         "twig/twig": "^3.3",

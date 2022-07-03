@@ -1,5 +1,6 @@
 <?php
-require('controller/controller.php');
+require_once 'app/controller/controller.php';
+require __DIR__ . '/vendor/autoload.php';
 
 session_start();
 
@@ -20,7 +21,7 @@ try { // On essaie de faire des choses
         elseif ($_GET['action'] == 'addComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['comment'])) {
-                    addComment($_GET['id'], $_SESSION['id'], $_POST['comment']);
+                    addComment(strip_tags($_GET['id']), strip_tags($_SESSION['id']), strip_tags($_POST['comment']));
                 }
                 else {
                     // Autre exception
@@ -35,7 +36,7 @@ try { // On essaie de faire des choses
         elseif ($_GET['action'] == 'addPost') {
             if (!empty($_POST['inputTitle']) && !empty($_POST['inputContent']) && !empty($_FILES['postimg']['tmp_name'])) {
                 $postimg = $_FILES['postimg'];
-                addPost($_SESSION['id'], $_POST['inputTitle'], $_POST['inputContent'], $postimg);
+                addPost(strip_tags($_SESSION['id']), strip_tags($_POST['inputTitle']), strip_tags($_POST['inputContent']), $postimg);
             }
             else {
                 // Autre exception
@@ -51,7 +52,7 @@ try { // On essaie de faire des choses
         }
         elseif ($_GET['action'] == 'registerAccount'){
             if(!empty($_POST['prenom']) && !empty($_POST['nom']) &&  !empty($_POST['username']) && !empty($_POST['email'])&& !empty($_POST['password']) && !empty($_POST['password_retype'])){
-                registerAction($_POST['prenom'], $_POST['nom'], $_POST['username'], $_POST['email'], $_POST['password'], $_POST['password_retype']);
+                registerAction(strip_tags($_POST['prenom']), strip_tags($_POST['nom']), strip_tags($_POST['username']), $_POST['email'], $_POST['password'], $_POST['password_retype']);
             }
             else {
                 // Autre exception
@@ -60,7 +61,7 @@ try { // On essaie de faire des choses
         }
         elseif ($_GET['action'] == 'sendemail'){
             if(!empty($_POST['inputName'])&& !empty($_POST['inputLastName'])&& !empty($_POST['inputEmail'])&& !empty($_POST['inputSubject'])&& !empty($_POST['inputMessage'])){
-                emailController(($_POST['inputName']), ($_POST['inputLastName']), ($_POST['inputEmail']), ($_POST['inputSubject']), ($_POST['inputMessage']));
+                emailController(strip_tags($_POST['inputName']), strip_tags($_POST['inputLastName']), $_POST['inputEmail'], strip_tags($_POST['inputSubject']), strip_tags($_POST['inputMessage']));
             }
             else {
                 // Autre exception
@@ -125,7 +126,7 @@ try { // On essaie de faire des choses
         elseif ($_GET['action'] == 'changeBio') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['userbio'])){
-                    $bio = $_POST['userbio'];
+                    $bio = strip_tags($_POST['userbio']);
                     changeBio($_GET['id'], $bio);
                 }
                 else {
