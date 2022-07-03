@@ -20,11 +20,11 @@ function listPosts()
     $posts = $postManager->getPosts(); // Appel d'une fonction de cet objet
 
   // Render our view
-    echo $twig->render('blog.html.twig', [
+  print_r($twig->render('blog.html.twig', [
     'post' => $posts,
     'userid' => $_SESSION['id'] ?? null,
     'is_admin' => $_SESSION['is_admin'] ?? null,
-  ]);
+  ]));
 }
 
 function emailController($firstname, $birthname, $email, $subject, $message)
@@ -45,12 +45,12 @@ function post()
     $post = $postManager->getPost($_GET['id']);
     $comments = $commentManager->getComments($_GET['id']);
 
-    echo $twig->render('posts.html.twig', [
+    print_r($twig->render('posts.html.twig', [
         'post' => $post,
         'comments' => $comments,
         'userid' => $_SESSION['id'] ?? null,
         'is_admin' => $_SESSION['is_admin'] ?? null,
-        ]);
+        ]));
 }
 
 function addComment($postId, $utilisateur, $comment)
@@ -105,7 +105,7 @@ function register()
     $twig = new Environment($loader);
 
 
-    echo $twig->render('register.html.twig');
+    print_r($twig->render('register.html.twig'));
 }
 
 function registerAction($prenom, $nom, $username, $email, $password)
@@ -177,13 +177,13 @@ function accountPage()
     $commentManager = new CommentManager();
     $comments = $commentManager->getUserComments($_GET['id']);
 
-    echo $twig->render('profile.html.twig', [
+    print_r($twig->render('profile.html.twig', [
         'userid' => $_SESSION['id'] ?? null,
         'is_admin' => $_SESSION['is_admin'] ?? null,
         'userInfos' => $user,
         'posts' => $posts,
         'comments' => $comments,
-    ]);
+    ]));
 }
 
 function adminPannel()
@@ -198,13 +198,13 @@ function adminPannel()
     $newComments = $commentManager->getAllNewComments();
     $validedComments = $commentManager->getAllValidedComments();
 
-    echo $twig->render('admin.html.twig', [
+    print_r($twig->render('admin.html.twig', [
         'userid' => $_SESSION['id'] ?? null,
         'is_admin' => $_SESSION['is_admin'] ?? null,
         'posts' => $posts,
         'new_comments' => $newComments,
         'valided_comments' => $validedComments,
-    ]);
+    ]));
 }
 
 function changePP($id, $profilepicture)
@@ -284,9 +284,9 @@ function home()
     $postManager = new PostManager(); // Création d'un objet
     $posts = $postManager->getPosts(); // Appel d'une fonction de cet objet
 
-    echo $twig->render('home.html.twig', [
+    print_r($twig->render('home.html.twig', [
         'post' => $posts,
         'userid' => $_SESSION['id'] ?? null,
         'is_admin' => $_SESSION['is_admin'] ?? null,
-    ]);
+    ]));
 }
