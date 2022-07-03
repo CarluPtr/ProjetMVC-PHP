@@ -42,7 +42,7 @@ function post()
     $postManager = new PostManager();
     $commentManager = new CommentManager();
 
-    $post = $postManager->getPost($_GET['id']);
+    $post = $postManager->getPost(isset($_GET['id']));
     $comments = $commentManager->getComments($_GET['id']);
 
     print_r($twig->render('posts.html.twig', [
