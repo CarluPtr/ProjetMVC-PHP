@@ -12,7 +12,7 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                post(strip_tags($_GET['id']));
+                post(strip_tags($_GET[stripslashes('id')]));
             }
             else {
                 // Erreur ! On arrête tout, on envoie une exception, donc au saute directement au catch
@@ -22,7 +22,7 @@ try { // On essaie de faire des choses
         elseif ($action == 'addComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['comment'])) {
-                    addComment(strip_tags($_GET['id']), strip_tags($_SESSION['id']), strip_tags($_POST['comment']));
+                    addComment(strip_tags($_GET[stripslashes('id')]), strip_tags($_SESSION[stripslashes('id')]), strip_tags($_POST[stripslashes('comment')]));
                 }
                 else {
                     // Autre exception
@@ -37,7 +37,12 @@ try { // On essaie de faire des choses
         elseif ($action == 'addPost') {
             if (!empty($_POST['inputTitle']) && !empty($_POST['inputContent']) && !empty($_FILES['postimg']['tmp_name'])) {
                 $postimg = $_FILES['postimg'];
-                addPost(strip_tags($_SESSION['id']), strip_tags($_POST['inputTitle']), strip_tags($_POST['inputContent']), $postimg);
+                addPost(
+                    strip_tags($_SESSION[stripslashes('id')]),
+                    strip_tags($_POST[stripslashes('inputTitle')]),
+                    strip_tags($_POST[stripslashes('inputContent')]),
+                    $postimg
+                );
             }
             else {
                 // Autre exception
@@ -53,7 +58,14 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'registerAccount'){
             if(!empty($_POST['prenom']) && !empty($_POST['nom']) &&  !empty($_POST['username']) && !empty($_POST['email'])&& !empty($_POST['password']) && !empty($_POST['password_retype'])){
-                registerAction(strip_tags($_POST['prenom']), strip_tags($_POST['nom']), strip_tags($_POST['username']), strip_tags($_POST['email']), strip_tags($_POST['password']), strip_tags($_POST['password_retype']));
+                registerAction(
+                    strip_tags($_POST[stripslashes('prenom')]),
+                    strip_tags($_POST[stripslashes('nom')]),
+                    strip_tags($_POST[stripslashes('username')]),
+                    strip_tags($_POST[stripslashes('email')]),
+                    strip_tags($_POST[stripslashes('password')]),
+                    strip_tags($_POST[stripslashes('password_retype')])
+                );
             }
             else {
                 // Autre exception
