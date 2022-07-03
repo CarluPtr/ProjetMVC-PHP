@@ -5,11 +5,12 @@ require __DIR__ . '/vendor/autoload.php';
 session_start();
 
 try { // On essaie de faire des choses
-    if (isset($_GET['action'])) {
-        if ($_GET['action'] == 'listPosts') {
+    $action = $_GET['action'];
+    if (isset($action)) {
+        if ($action == 'listPosts') {
             listPosts();
         }
-        elseif ($_GET['action'] == 'post') {
+        elseif ($action == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 post();
             }
@@ -18,7 +19,7 @@ try { // On essaie de faire des choses
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         }
-        elseif ($_GET['action'] == 'addComment') {
+        elseif ($action == 'addComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['comment'])) {
                     addComment(strip_tags($_GET['id']), strip_tags($_SESSION['id']), strip_tags($_POST['comment']));
@@ -33,7 +34,7 @@ try { // On essaie de faire des choses
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         }
-        elseif ($_GET['action'] == 'addPost') {
+        elseif ($action == 'addPost') {
             if (!empty($_POST['inputTitle']) && !empty($_POST['inputContent']) && !empty($_FILES['postimg']['tmp_name'])) {
                 $postimg = $_FILES['postimg'];
                 addPost(strip_tags($_SESSION['id']), strip_tags($_POST['inputTitle']), strip_tags($_POST['inputContent']), $postimg);
@@ -44,13 +45,13 @@ try { // On essaie de faire des choses
             }
 
         }
-        elseif ($_GET['action'] == 'register'){
+        elseif ($action == 'register'){
             register();
         }
-        elseif ($_GET['action'] == 'login'){
+        elseif ($action == 'login'){
             logIn();
         }
-        elseif ($_GET['action'] == 'registerAccount'){
+        elseif ($action == 'registerAccount'){
             if(!empty($_POST['prenom']) && !empty($_POST['nom']) &&  !empty($_POST['username']) && !empty($_POST['email'])&& !empty($_POST['password']) && !empty($_POST['password_retype'])){
                 registerAction(strip_tags($_POST['prenom']), strip_tags($_POST['nom']), strip_tags($_POST['username']), $_POST['email'], $_POST['password'], $_POST['password_retype']);
             }
@@ -59,7 +60,7 @@ try { // On essaie de faire des choses
                 throw new Exception('Tous les champs ne sont pas remplis !');
             }
         }
-        elseif ($_GET['action'] == 'sendemail'){
+        elseif ($action == 'sendemail'){
             if(!empty($_POST['inputName'])&& !empty($_POST['inputLastName'])&& !empty($_POST['inputEmail'])&& !empty($_POST['inputSubject'])&& !empty($_POST['inputMessage'])){
                 emailController(strip_tags($_POST['inputName']), strip_tags($_POST['inputLastName']), $_POST['inputEmail'], strip_tags($_POST['inputSubject']), strip_tags($_POST['inputMessage']));
             }
@@ -68,7 +69,7 @@ try { // On essaie de faire des choses
                 throw new Exception('Tous les champs ne sont pas remplis !');
             }
         }
-        elseif ($_GET['action'] == 'logInAccount'){
+        elseif ($action == 'logInAccount'){
             if(!empty($_POST['email'])&& !empty($_POST['password'])){
                 logInAction($_POST['email'], $_POST['password']);
             }
@@ -77,15 +78,15 @@ try { // On essaie de faire des choses
                 throw new Exception('Tous les champs ne sont pas remplis !');
             }
         }
-        elseif ($_GET['action'] == 'logout'){
+        elseif ($action == 'logout'){
             logOutAction();
         }
-        elseif ($_GET['action'] == 'account'){
+        elseif ($action == 'account'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 accountPage($_GET['id']);
             }
         }
-        elseif ($_GET['action'] == 'admin'){
+        elseif ($action == 'admin'){
             if($_SESSION['is_admin']){
                 adminPannel();
             }
@@ -93,22 +94,22 @@ try { // On essaie de faire des choses
                 throw new Exception("Vous n'avez pas la permission d'accéder à cette page !");
             }
         }
-        elseif ($_GET['action'] == 'deletecom'){
+        elseif ($action == 'deletecom'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 deleteComController($_GET['id']);
             }
         }
-        elseif ($_GET['action'] == 'deletepost'){
+        elseif ($action == 'deletepost'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 deletePostController($_GET['id']);
             }
         }
-        elseif ($_GET['action'] == 'validate'){
+        elseif ($action == 'validate'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 validateComController($_GET['id']);
             }
         }
-        elseif ($_GET['action'] == 'changePP') {
+        elseif ($action == 'changePP') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if(!empty($_FILES['profilepic']['tmp_name'])){
                     $profilepicture = $_FILES['profilepic'];
@@ -123,7 +124,7 @@ try { // On essaie de faire des choses
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         }
-        elseif ($_GET['action'] == 'changeBio') {
+        elseif ($action == 'changeBio') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['userbio'])){
                     $bio = strip_tags($_POST['userbio']);
