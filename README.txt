@@ -7,3 +7,5 @@ Import the blogp5 database inside your phpMyAdmin
 Then do a 
 
 -> composer install
+
+Codacy Badge
