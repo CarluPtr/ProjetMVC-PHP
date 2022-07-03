@@ -74,7 +74,12 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'sendemail'){
             if(!empty($_POST['inputName'])&& !empty($_POST['inputLastName'])&& !empty($_POST['inputEmail'])&& !empty($_POST['inputSubject'])&& !empty($_POST['inputMessage'])){
-                emailController(strip_tags($_POST['inputName']), strip_tags($_POST['inputLastName']), $_POST['inputEmail'], strip_tags($_POST['inputSubject']), strip_tags($_POST['inputMessage']));
+                emailController(
+                    strip_tags($_POST[stripslashes('inputName')]),
+                    strip_tags($_POST[stripslashes('inputLastName')]),
+                    strip_tags($_POST[stripslashes('inputEmail')]),
+                    strip_tags($_POST[stripslashes('inputSubject')]),
+                    strip_tags($_POST[stripslashes('inputMessage')]));
             }
             else {
                 // Autre exception
@@ -83,7 +88,10 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'logInAccount'){
             if(!empty($_POST['email'])&& !empty($_POST['password'])){
-                logInAction($_POST['email'], $_POST['password']);
+                logInAction(
+                    strip_tags($_POST[stripslashes('email')]),
+                    strip_tags($_POST[stripslashes('password')])
+                );
             }
             else {
                 // Autre exception
@@ -95,7 +103,7 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'account'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                accountPage(strip_tags($_GET['id']));
+                accountPage(strip_tags($_GET[stripslashes('id')]));
             }
         }
         elseif ($action == 'admin'){
@@ -108,24 +116,24 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'deletecom'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                deleteComController(strip_tags($_GET['id']));
+                deleteComController(strip_tags($_GET[stripslashes('id')]));
             }
         }
         elseif ($action == 'deletepost'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                deletePostController(strip_tags($_GET['id']));
+                deletePostController(strip_tags($_GET[stripslashes('id')]));
             }
         }
         elseif ($action == 'validate'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                validateComController(strip_tags($_GET['id']));
+                validateComController(strip_tags($_GET[stripslashes('id')]));
             }
         }
         elseif ($action == 'changePP') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if(!empty($_FILES['profilepic']['tmp_name'])){
                     $profilepicture = $_FILES['profilepic'];
-                    changePP(strip_tags($_GET['id']), $profilepicture);
+                    changePP(strip_tags($_GET[stripslashes('id')]), $profilepicture);
                 }
                 else {
                     throw new Exception('Veuillez sélectionner une photo de profil !');
@@ -140,7 +148,7 @@ try { // On essaie de faire des choses
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['userbio'])){
                     $bio = strip_tags($_POST['userbio']);
-                    changeBio(strip_tags($_GET['id']), $bio);
+                    changeBio(strip_tags($_GET[stripslashes('id')]), $bio);
                 }
                 else {
                     throw new Exception('Veuillez écrire une description !');
