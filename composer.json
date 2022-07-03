@@ -1,9 +1,14 @@
 {
-    "name": "carlu/p5",
-    "require-dev": {
-        "twig/twig": "^3.3"
+    "autoload": {
+        "psr-4": {
+            "Model\\": "app/model"
+        }
+
     },
+
     "require": {
-        "phpmailer/phpmailer": "^6.6"
+        "twig/twig": "^3.3",
+        "phpmailer/phpmailer": "^6.6",
+        "m6web/php-cs-fixer-config": "2.0"
     }
 }

@@ -75,7 +75,7 @@
                     {% endif %}
                         <p><strong><a href='/{{MAIN_FILE}}/account/{{comment.user_id}}'>{{comment.username}}</a></strong> le <span class='fw-light'>{{comment.comment_date_fr}}</span> sur ce <a href="/{{MAIN_FILE}}/post/{{comment.post_id}}">post</a></p>
                         <p>{{comment.comment}}</p>
-                        <a href="/{{ MAIN_FILE }}//index.php?action=deletecom&amp;id={{comment.commentid}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
+                        <a href="/{{ MAIN_FILE }}//index.php?action=deletecom&amp;id={{comment.id}}"><button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button></a>
                     </div>
                 </div>  
                 {% endfor %}

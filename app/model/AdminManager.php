@@ -1,5 +1,6 @@
 <?php
-require_once("model/Manager.php");
+
+namespace Model;
 
 class AdminManager extends Manager
 {
@@ -7,7 +8,7 @@ class AdminManager extends Manager
     {
         $db = $this->dbConnect();
         $comments = $db->prepare('DELETE FROM comments WHERE id = ?');
-        $affectedLines = $comments->execute(array($id));
+        $affectedLines = $comments->execute([$id]);
 
         return $affectedLines;
     }
@@ -16,17 +17,16 @@ class AdminManager extends Manager
     {
         $db = $this->dbConnect();
         $comments = $db->prepare('DELETE FROM posts WHERE id = ?');
-        $affectedLines = $comments->execute(array($id));
+        $affectedLines = $comments->execute([$id]);
 
         return $affectedLines;
     }
 
-    public function validateComment(int $id){
-
+    public function validateComment(int $id)
+    {
         $db = $this->dbConnect();
         $stmt = $db->prepare('UPDATE comments SET is_valid = 1 WHERE id = ?');
-        $affectedLines = $stmt->execute(array($id));
-
+        $affectedLines = $stmt->execute([$id]);
 
         return $affectedLines;
     }
