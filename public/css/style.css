@@ -1,6 +1,6 @@
 body {
     font-family: 'Montserrat', sans-serif !important;
-  }
+}
 
 .post-img {
     max-width: 55vw !important;
@@ -29,7 +29,6 @@ body {
 }
 
 @media only screen and (max-width:768px) {
-
   .admin-pannel{
     margin-top: 22vh !important;
   }

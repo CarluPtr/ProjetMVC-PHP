@@ -210,7 +210,7 @@ function adminPannel()
 
 function changePP($userId, $profilepicture)
 {
-    if ($userId = $_SESSION['id']) {
+    if ($userId == $_SESSION['id']) {
         $userId = $_SESSION['id'];
         $userManager = new UserManager();
         $userManager->editPP($userId, $profilepicture);

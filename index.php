@@ -2,10 +2,10 @@
 require_once 'app/controller/controller.php';
 require __DIR__ . '/vendor/autoload.php';
 
-session_start();
+if(!isset($_SESSION)){session_start();}
 
 try { // On essaie de faire des choses
-    $action = $_GET['action'];
+    $action = $_GET['action']?? null;
     if (isset($action)) {
         if ($action == 'listPosts') {
             listPosts();
@@ -83,7 +83,7 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'account'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                accountPage($_GET['id']);
+                accountPage(strip_tags($_GET['id']));
             }
         }
         elseif ($action == 'admin'){
@@ -96,24 +96,24 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'deletecom'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                deleteComController($_GET['id']);
+                deleteComController(strip_tags($_GET['id']));
             }
         }
         elseif ($action == 'deletepost'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                deletePostController($_GET['id']);
+                deletePostController(strip_tags($_GET['id']));
             }
         }
         elseif ($action == 'validate'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                validateComController($_GET['id']);
+                validateComController(strip_tags($_GET['id']));
             }
         }
         elseif ($action == 'changePP') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if(!empty($_FILES['profilepic']['tmp_name'])){
                     $profilepicture = $_FILES['profilepic'];
-                    changePP($_GET['id'], $profilepicture);
+                    changePP(strip_tags($_GET['id']), $profilepicture);
                 }
                 else {
                     throw new Exception('Veuillez sélectionner une photo de profil !');
@@ -128,7 +128,7 @@ try { // On essaie de faire des choses
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['userbio'])){
                     $bio = strip_tags($_POST['userbio']);
-                    changeBio($_GET['id'], $bio);
+                    changeBio(strip_tags($_GET['id']), $bio);
                 }
                 else {
                     throw new Exception('Veuillez écrire une description !');
