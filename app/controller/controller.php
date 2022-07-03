@@ -4,6 +4,7 @@ use Model\Post;
 use Model\PostManager;
 use Model\Comment;
 use Model\CommentManager;
+use Model\AdminManager;
 use Model\MailManager;
 use Model\User;
 use Model\UserManager;
@@ -34,7 +35,7 @@ function emailController($firstname, $birthname, $email, $subject, $message)
     header('Location: index.php');
 }
 
-function post($id)
+function post($postId)
 {
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
@@ -42,8 +43,8 @@ function post($id)
     $postManager = new PostManager();
     $commentManager = new CommentManager();
 
-    $post = $postManager->getPost($id);
-    $comments = $commentManager->getComments($id);
+    $post = $postManager->getPost($postId);
+    $comments = $commentManager->getComments($postId);
 
     print_r($twig->render('posts.html.twig', [
         'post' => $post,
@@ -163,19 +164,19 @@ function logOutAction()
     }
 }
 
-function accountPage($id)
+function accountPage($userId)
 {
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
 
     $userManager = new UserManager();
-    $user = $userManager->getUser($id);
+    $user = $userManager->getUser($userId);
 
     $postManager = new PostManager();
-    $posts = $postManager->getUserPosts($id);
+    $posts = $postManager->getUserPosts($userId);
 
     $commentManager = new CommentManager();
-    $comments = $commentManager->getUserComments($id);
+    $comments = $commentManager->getUserComments($userId);
 
     print_r($twig->render('profile.html.twig', [
         'userid' => $_SESSION['id'] ?? null,
@@ -207,43 +208,43 @@ function adminPannel()
     ]));
 }
 
-function changePP($id, $profilepicture)
+function changePP($userId, $profilepicture)
 {
-    if ($id = $_SESSION['id']) {
-        $id = $_SESSION['id'];
+    if ($userId = $_SESSION['id']) {
+        $userId = $_SESSION['id'];
         $userManager = new UserManager();
-        $user = $userManager->editPP($id, $profilepicture);
+        $user = $userManager->editPP($userId, $profilepicture);
 
         if ($affectedLines === false) {
             throw new Exception("Impossible de changer l'image");
         } else {
-            header('Location: account/'.$id);
+            header('Location: account/'.$userId);
         }
     } else {
         throw new Exception("vous n'etes pas le bon utilisateur");
     }
 }
 
-function changeBio($id, $bio)
+function changeBio($userId, $bio)
 {
-    if ($id == $_SESSION['id']) {
-        $id = $_SESSION['id'];
+    if ($userId == $_SESSION['id']) {
+        $userId = $_SESSION['id'];
         $userManager = new UserManager();
         $user = $userManager->editBio($id, $bio);
 
         if ($affectedLines === false) {
             throw new Exception('Impossible de changer la bio');
         } else {
-            header('Location: account/'.$id);
+            header('Location: account/'.$userId);
         }
     } else {
         throw new Exception("Vous n'etes pas le bon utilisateur");
     }
 }
-function deleteComController($id)
+function deleteComController($commentId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->deleteComment($id);
+    $admin = $adminManager->deleteComment($commentId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de supprimer le commentaire');
@@ -252,10 +253,10 @@ function deleteComController($id)
     }
 }
 
-function deletePostController($id)
+function deletePostController($postId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->deletePost($id);
+    $admin = $adminManager->deletePost($postId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de supprimer le commentaire');
@@ -264,10 +265,10 @@ function deletePostController($id)
     }
 }
 
-function validateComController($id)
+function validateComController($commentId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->validateComment($id);
+    $admin = $adminManager->validateComment($commentId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de valider le commentaire');
