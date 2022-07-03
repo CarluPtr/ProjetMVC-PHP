@@ -26,7 +26,7 @@ try { // On essaie de faire des choses
                 if (!empty($_POST['comment'])) {
                     addComment(
                         filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
-                        strip_tags($_SESSION[stripslashes('id')]),
+                        filter_var($_SESSION['id']),
                         filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING),
                     );    
                 }
