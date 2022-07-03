@@ -169,13 +169,13 @@ function accountPage()
     $twig = new Environment($loader);
 
     $userManager = new UserManager();
-    $user = $userManager->getUser($_GET['id']);
+    $user = $userManager->getUser(isset($_GET['id']));
 
     $postManager = new PostManager();
-    $posts = $postManager->getUserPosts($_GET['id']);
+    $posts = $postManager->getUserPosts(isset($_GET['id']));
 
     $commentManager = new CommentManager();
-    $comments = $commentManager->getUserComments($_GET['id']);
+    $comments = $commentManager->getUserComments(isset($_GET['id']));
 
     print_r($twig->render('profile.html.twig', [
         'userid' => $_SESSION['id'] ?? null,
