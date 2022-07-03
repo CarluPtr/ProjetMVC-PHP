@@ -163,19 +163,19 @@ function logOutAction()
     }
 }
 
-function accountPage()
+function accountPage($id)
 {
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
 
     $userManager = new UserManager();
-    $user = $userManager->getUser(isset($_GET['id']));
+    $user = $userManager->getUser($id);
 
     $postManager = new PostManager();
-    $posts = $postManager->getUserPosts(isset($_GET['id']));
+    $posts = $postManager->getUserPosts($id);
 
     $commentManager = new CommentManager();
-    $comments = $commentManager->getUserComments(isset($_GET['id']));
+    $comments = $commentManager->getUserComments($id);
 
     print_r($twig->render('profile.html.twig', [
         'userid' => $_SESSION['id'] ?? null,
