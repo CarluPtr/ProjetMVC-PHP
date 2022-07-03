@@ -5,14 +5,16 @@ require __DIR__ . '/vendor/autoload.php';
 if(!isset($_SESSION)){session_start();}
 
 try { // On essaie de faire des choses
-    $action = $_GET[stripslashes('action')]?? null;
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) ?? null;
     if (isset($action)) {
         if ($action == 'listPosts') {
             listPosts();
         }
         elseif ($action == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                post(strip_tags($_GET[stripslashes('id')]));
+                post(
+                    filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                );
             }
             else {
                 // Erreur ! On arrête tout, on envoie une exception, donc au saute directement au catch
@@ -22,7 +24,11 @@ try { // On essaie de faire des choses
         elseif ($action == 'addComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['comment'])) {
-                    addComment(strip_tags($_GET[stripslashes('id')]), strip_tags($_SESSION[stripslashes('id')]), strip_tags($_POST[stripslashes('comment')]));
+                    addComment(
+                        filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                        strip_tags($_SESSION[stripslashes('id')]),
+                        filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING),
+                    );    
                 }
                 else {
                     // Autre exception
@@ -38,9 +44,9 @@ try { // On essaie de faire des choses
             if (!empty($_POST['inputTitle']) && !empty($_POST['inputContent']) && !empty($_FILES['postimg']['tmp_name'])) {
                 $postimg = $_FILES['postimg'];
                 addPost(
-                    strip_tags($_SESSION[stripslashes('id')]),
-                    strip_tags($_POST[stripslashes('inputTitle')]),
-                    strip_tags($_POST[stripslashes('inputContent')]),
+                    strip_tags($_SESSION['id']),
+                    filter_input(INPUT_POST, 'inputTitle', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'inputContent', FILTER_SANITIZE_STRING),
                     $postimg
                 );
             }
@@ -119,24 +125,32 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'deletecom'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                deleteComController(strip_tags($_GET[stripslashes('id')]));
+                deleteComController(
+                    filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                );
             }
         }
         elseif ($action == 'deletepost'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                deletePostController(strip_tags($_GET[stripslashes('id')]));
+                deletePostController(
+                    filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                );
             }
         }
         elseif ($action == 'validate'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                validateComController(strip_tags($_GET[stripslashes('id')]));
+                validateComController(
+                    filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                );
             }
         }
         elseif ($action == 'changePP') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if(!empty($_FILES['profilepic']['tmp_name'])){
                     $profilepicture = $_FILES['profilepic'];
-                    changePP(strip_tags($_GET[stripslashes('id')]), $profilepicture);
+                    changePP(
+                        filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                        $profilepicture);
                 }
                 else {
                     throw new Exception('Veuillez sélectionner une photo de profil !');
@@ -151,7 +165,9 @@ try { // On essaie de faire des choses
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['userbio'])){
                     $bio = strip_tags($_POST['userbio']);
-                    changeBio(strip_tags($_GET[stripslashes('id')]), $bio);
+                    changeBio(
+                        filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                        $bio);
                 }
                 else {
                     throw new Exception('Veuillez écrire une description !');
