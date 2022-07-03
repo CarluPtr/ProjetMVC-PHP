@@ -75,11 +75,12 @@ try { // On essaie de faire des choses
         elseif ($action == 'sendemail'){
             if(!empty($_POST['inputName'])&& !empty($_POST['inputLastName'])&& !empty($_POST['inputEmail'])&& !empty($_POST['inputSubject'])&& !empty($_POST['inputMessage'])){
                 emailController(
-                    strip_tags($_POST[stripslashes('inputName')]),
-                    strip_tags($_POST[stripslashes('inputLastName')]),
-                    strip_tags($_POST[stripslashes('inputEmail')]),
-                    strip_tags($_POST[stripslashes('inputSubject')]),
-                    strip_tags($_POST[stripslashes('inputMessage')]));
+                    filter_input(INPUT_POST, 'inputName', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'inputLastName', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'inputEmail', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'inputSubject', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'inputMessage', FILTER_SANITIZE_STRING),
+                );    
             }
             else {
                 // Autre exception
@@ -89,8 +90,8 @@ try { // On essaie de faire des choses
         elseif ($action == 'logInAccount'){
             if(!empty($_POST['email'])&& !empty($_POST['password'])){
                 logInAction(
-                    strip_tags($_POST[stripslashes('email')]),
-                    strip_tags($_POST[stripslashes('password')])
+                    filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING),
                 );
             }
             else {
@@ -103,7 +104,9 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'account'){
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                accountPage(strip_tags($_GET[stripslashes('id')]));
+                accountPage(
+                    filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
+                );
             }
         }
         elseif ($action == 'admin'){
