@@ -31,7 +31,7 @@ function listPosts()
 function emailController($firstname, $birthname, $email, $subject, $message)
 {
     $emailManager = new MailManager();
-    $email = $emailManager->sendemail($firstname, $birthname, $email, $subject, $message);
+    $emailManager->sendemail($firstname, $birthname, $email, $subject, $message);
     header('Location: index.php');
 }
 
@@ -213,7 +213,7 @@ function changePP($userId, $profilepicture)
     if ($userId = $_SESSION['id']) {
         $userId = $_SESSION['id'];
         $userManager = new UserManager();
-        $user = $userManager->editPP($userId, $profilepicture);
+        $userManager->editPP($userId, $profilepicture);
 
         if ($affectedLines === false) {
             throw new Exception("Impossible de changer l'image");
@@ -230,7 +230,7 @@ function changeBio($userId, $bio)
     if ($userId == $_SESSION['id']) {
         $userId = $_SESSION['id'];
         $userManager = new UserManager();
-        $user = $userManager->editBio($id, $bio);
+        $userManager->editBio($id, $bio);
 
         if ($affectedLines === false) {
             throw new Exception('Impossible de changer la bio');
@@ -244,7 +244,7 @@ function changeBio($userId, $bio)
 function deleteComController($commentId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->deleteComment($commentId);
+    $adminManager->deleteComment($commentId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de supprimer le commentaire');
@@ -256,7 +256,7 @@ function deleteComController($commentId)
 function deletePostController($postId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->deletePost($postId);
+    $adminManager->deletePost($postId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de supprimer le commentaire');
@@ -268,7 +268,7 @@ function deletePostController($postId)
 function validateComController($commentId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->validateComment($commentId);
+    $adminManager->validateComment($commentId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de valider le commentaire');
