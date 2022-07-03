@@ -56,7 +56,7 @@ function post($postId)
 
 function addComment($postId, $utilisateur, $comment)
 {
-    $is_admin = filter_var($_SESSION['iis_admin']);
+    $is_admin = filter_var($_SESSION['is_admin']);
 
     $commentManager = new CommentManager();
 

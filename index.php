@@ -42,7 +42,7 @@ try { // On essaie de faire des choses
         }
         elseif ($action == 'addPost') {
             if (!empty($_POST['inputTitle']) && !empty($_POST['inputContent']) && !empty($_FILES['postimg']['tmp_name'])) {
-                $postimg = $_FILES['postimg'];
+                $postimg = filter_var_array($_FILES['postimg'], FILTER_SANITIZE_STRING);
                 addPost(
                     filter_var($_SESSION['id']),
                     filter_input(INPUT_POST, 'inputTitle', FILTER_SANITIZE_STRING),
@@ -147,7 +147,7 @@ try { // On essaie de faire des choses
         elseif ($action == 'changePP') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if(!empty($_FILES['profilepic']['tmp_name'])){
-                    $profilepicture = $_FILES['profilepic'];
+                    filter_var_array($_FILES['profilepic'], FILTER_SANITIZE_STRING);
                     changePP(
                         filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
                         $profilepicture);
