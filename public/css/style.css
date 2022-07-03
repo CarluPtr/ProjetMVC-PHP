@@ -3,11 +3,11 @@ body {
   }
 
 .post-img {
-    max-width: 55vw!important;
+    max-width: 55vw !important;
     object-fit: cover;
 }
-.navbar-brand{
-  margin-right: 0!important;
+.navbar-brand {
+  margin-right: 0 !important;
 }
 
 
@@ -15,23 +15,23 @@ body {
   display: none;
 }
 
-.truncate{
+.truncate {
   display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-@media only screen and (min-width:768px){
+@media only screen and (min-width:768px) {
   #admin-nav {
      display: none !important;
   }
 }
 
-@media only screen and (max-width:768px){
+@media only screen and (max-width:768px) {
 
   .admin-pannel{
-    margin-top: 22vh!important;
+    margin-top: 22vh !important;
   }
   .sticky-top{
     top:56px;
@@ -40,6 +40,6 @@ body {
 
 @media (max-width: 991.98px) { 
   .post-img {
-    max-width: 70vw!important;
+    max-width: 70vw !important;
 }
 }
