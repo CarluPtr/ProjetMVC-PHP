@@ -164,7 +164,7 @@ try { // On essaie de faire des choses
         elseif ($action == 'changeBio') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['userbio'])){
-                    $bio = strip_tags($_POST['userbio']);
+                    $bio = filter_input(INPUT_POST, 'userbio', FILTER_SANITIZE_STRING);
                     changeBio(
                         filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
                         $bio);
