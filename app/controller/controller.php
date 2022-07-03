@@ -34,7 +34,7 @@ function emailController($firstname, $birthname, $email, $subject, $message)
     header('Location: index.php');
 }
 
-function post()
+function post($id)
 {
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
@@ -42,8 +42,8 @@ function post()
     $postManager = new PostManager();
     $commentManager = new CommentManager();
 
-    $post = $postManager->getPost(isset($_GET['id']));
-    $comments = $commentManager->getComments(isset($_GET['id']));
+    $post = $postManager->getPost($id);
+    $comments = $commentManager->getComments($id);
 
     print_r($twig->render('posts.html.twig', [
         'post' => $post,
