@@ -134,7 +134,7 @@ function logIn()
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
 
-    echo $twig->render('login.html.twig');
+    print_r($twig->render('login.html.twig'));
 }
 
 function logInAction($email, $password)
