@@ -5,7 +5,7 @@ require __DIR__ . '/vendor/autoload.php';
 if(!isset($_SESSION)){session_start();}
 
 try { // On essaie de faire des choses
-    $action = $_GET['action']?? null;
+    $action = $_GET[stripslashes('action')]?? null;
     if (isset($action)) {
         if ($action == 'listPosts') {
             listPosts();
