@@ -59,12 +59,12 @@ try { // On essaie de faire des choses
         elseif ($action == 'registerAccount'){
             if(!empty($_POST['prenom']) && !empty($_POST['nom']) &&  !empty($_POST['username']) && !empty($_POST['email'])&& !empty($_POST['password']) && !empty($_POST['password_retype'])){
                 registerAction(
-                    strip_tags($_POST[stripslashes('prenom')]),
-                    strip_tags($_POST[stripslashes('nom')]),
-                    strip_tags($_POST[stripslashes('username')]),
-                    strip_tags($_POST[stripslashes('email')]),
-                    strip_tags($_POST[stripslashes('password')]),
-                    strip_tags($_POST[stripslashes('password_retype')])
+                    filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING),
+                    filter_input(INPUT_POST, 'password_retype', FILTER_SANITIZE_STRING),
                 );
             }
             else {
