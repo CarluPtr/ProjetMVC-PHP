@@ -23,8 +23,8 @@ function listPosts()
   // Render our view
   print_r($twig->render('blog.html.twig', [
     'post' => $posts,
-    'userid' => $_SESSION['id'] ?? null,
-    'is_admin' => $_SESSION['is_admin'] ?? null,
+    'userid' => filter_var($_SESSION['id']) ?? null,
+    'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
   ]));
 }
 
@@ -49,14 +49,14 @@ function post($postId)
     print_r($twig->render('posts.html.twig', [
         'post' => $post,
         'comments' => $comments,
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']) ?? null,
+        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
         ]));
 }
 
 function addComment($postId, $utilisateur, $comment)
 {
-    $is_admin = $_SESSION['is_admin'];
+    $is_admin = filter_var($_SESSION['iis_admin']);
 
     $commentManager = new CommentManager();
 
@@ -180,8 +180,8 @@ function accountPage($userId)
     $comments = $commentManager->getUserComments($userId);
 
     print_r($twig->render('profile.html.twig', [
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']) ?? null,
+        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
         'userInfos' => $user,
         'posts' => $posts,
         'comments' => $comments,
@@ -201,8 +201,8 @@ function adminPannel()
     $validedComments = $commentManager->getAllValidedComments();
 
     print_r($twig->render('admin.html.twig', [
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']) ?? null,
+        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
         'posts' => $posts,
         'new_comments' => $newComments,
         'valided_comments' => $validedComments,
@@ -212,7 +212,7 @@ function adminPannel()
 function changePP($userId, $profilepicture)
 {
     if ($userId == $_SESSION['id']) {
-        $userId = $_SESSION['id'];
+        $userId = filter_var($_SESSION['id']);
         $userManager = new UserManager();
         $userManager->editPP($userId, $profilepicture);
 
@@ -229,7 +229,7 @@ function changePP($userId, $profilepicture)
 function changeBio($userId, $bio)
 {
     if ($userId == $_SESSION['id']) {
-        $userId = $_SESSION['id'];
+        $userId = filter_var($_SESSION['id']);
         $userManager = new UserManager();
         $userManager->editBio($id, $bio);
 
@@ -288,7 +288,7 @@ function home()
 
     print_r($twig->render('home.html.twig', [
         'post' => $posts,
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']) ?? null,
+        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
     ]));
 }

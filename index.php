@@ -44,7 +44,7 @@ try { // On essaie de faire des choses
             if (!empty($_POST['inputTitle']) && !empty($_POST['inputContent']) && !empty($_FILES['postimg']['tmp_name'])) {
                 $postimg = $_FILES['postimg'];
                 addPost(
-                    strip_tags($_SESSION['id']),
+                    filter_var($_SESSION['id']),
                     filter_input(INPUT_POST, 'inputTitle', FILTER_SANITIZE_STRING),
                     filter_input(INPUT_POST, 'inputContent', FILTER_SANITIZE_STRING),
                     $postimg
