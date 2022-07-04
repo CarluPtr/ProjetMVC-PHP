@@ -231,7 +231,7 @@ function changeBio($userId, $bio)
     if ($userId == $_SESSION['id']) {
         $userId = filter_var($_SESSION['id']);
         $userManager = new UserManager();
-        $userManager->editBio($id, $bio);
+        $userManager->editBio($userId, $bio);
 
         if ($affectedLines === false) {
             throw new Exception('Impossible de changer la bio');
