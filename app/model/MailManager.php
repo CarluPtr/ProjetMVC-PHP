@@ -21,8 +21,8 @@ class MailManager extends PHPMailer
 
         // Outlook email infos
 
-        $from = 'tsunayoshi2000@outlook.fr';
-        $password = 'Sasuke1905';
+        $from = 'youremail@youremail.fr';
+        $password = 'yourpassword';
 
         try {
             // Server settings
