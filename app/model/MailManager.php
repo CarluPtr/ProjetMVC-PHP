@@ -46,8 +46,8 @@ class MailManager extends PHPMailer
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
-            throw new Exception('Message has been sent');
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         }
     }
