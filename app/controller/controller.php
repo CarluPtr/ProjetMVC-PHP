@@ -23,8 +23,8 @@ function listPosts()
   // Render our view
   print_r($twig->render('blog.html.twig', [
     'post' => $posts,
-    'userid' => filter_var($_SESSION['id']) ?? null,
-    'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
+    'userid' => filter_var($_SESSION['id']?? null),
+    'is_admin' => filter_var($_SESSION['is_admin']?? null),
   ]));
 }
 
