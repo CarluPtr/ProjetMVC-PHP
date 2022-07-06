@@ -147,7 +147,7 @@ try { // On essaie de faire des choses
         elseif ($action == 'changePP') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if(!empty($_FILES['profilepic']['tmp_name'])){
-                    filter_var_array($_FILES['profilepic'], FILTER_SANITIZE_STRING);
+                    $profilepicture = filter_var_array($_FILES['profilepic'], FILTER_SANITIZE_STRING);
                     changePP(
                         filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING),
                         $profilepicture);

@@ -142,8 +142,12 @@ function logIn()
 function logInAction($email, $password)
 {
     $userManager = new UserManager();
+    $user = new User();
 
-    $check = $userManager->logInAccount($email, $password);
+    $user->setEmail($email);
+    $user->setPassword($password);
+
+    $check = $userManager->logInAccount($user);
 
     if ($check === false) {
         throw new Exception('Impossible de se connecter');
@@ -180,8 +184,8 @@ function accountPage($userId)
     $comments = $commentManager->getUserComments($userId);
 
     print_r($twig->render('profile.html.twig', [
-        'userid' => filter_var($_SESSION['id']) ?? null,
-        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
+        'userid' => filter_var($_SESSION['id']?? null),
+        'is_admin' => filter_var($_SESSION['is_admin']?? null),
         'userInfos' => $user,
         'posts' => $posts,
         'comments' => $comments,
@@ -201,8 +205,8 @@ function adminPannel()
     $validedComments = $commentManager->getAllValidedComments();
 
     print_r($twig->render('admin.html.twig', [
-        'userid' => filter_var($_SESSION['id']) ?? null,
-        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
+        'userid' => filter_var($_SESSION['id']?? null),
+        'is_admin' => filter_var($_SESSION['is_admin']?? null),
         'posts' => $posts,
         'new_comments' => $newComments,
         'valided_comments' => $validedComments,
@@ -211,10 +215,18 @@ function adminPannel()
 
 function changePP($userId, $profilepicture)
 {
-    if ($userId == $_SESSION['id']) {
-        $userId = filter_var($_SESSION['id']);
+    if ($userId == filter_var($_SESSION['id'])) {
+
         $userManager = new UserManager();
-        $userManager->editPP($userId, $profilepicture);
+        $user = new User();
+
+        $image = $profilepicture['tmp_name'];
+        $data = file_get_contents($image);
+
+        $user->setProfilePicture($data);
+        $user->setIdUser($userId);
+
+        $userManager->editPP($user);
 
         if ($affectedLines === false) {
             throw new Exception("Impossible de changer l'image");
@@ -228,10 +240,15 @@ function changePP($userId, $profilepicture)
 
 function changeBio($userId, $bio)
 {
-    if ($userId == $_SESSION['id']) {
-        $userId = filter_var($_SESSION['id']);
+    if ($userId == filter_var($_SESSION['id'])) {
+
         $userManager = new UserManager();
-        $userManager->editBio($userId, $bio);
+        $user = new User();
+
+
+        $user->setDescription($bio);
+        $user->setIdUser($userId);
+        $userManager->editBio($user);
 
         if ($affectedLines === false) {
             throw new Exception('Impossible de changer la bio');
@@ -288,7 +305,7 @@ function home()
 
     print_r($twig->render('home.html.twig', [
         'post' => $posts,
-        'userid' => filter_var($_SESSION['id']) ?? null,
-        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
+        'userid' => filter_var($_SESSION['id']?? null),
+        'is_admin' => filter_var($_SESSION['is_admin']?? null),
     ]));
 }

@@ -80,12 +80,13 @@ class Comment
     }
 
 
-    public function setIsValid(bool $isValid)
+    public function setIsValid(int $isValid)
     {
+        if ($isValid <= 1){
+            $isValid = (int) $isValid;
 
-        $isValid = (bool) $isValid;
-
-        $this->isValid = $isValid;
+            $this->isAdmin = $isAdmin;
+        }
     }
 
 

@@ -109,10 +109,11 @@ class User
 
     public function setIsAdmin(int $isAdmin)
     {
-        if ($isAdmin <= 1)
-        $isAdmin = (int) $isAdmin;
+        if ($isAdmin <= 1){
+            $isAdmin = (int) $isAdmin;
 
-        $this->isAdmin = $isAdmin;
+            $this->isAdmin = $isAdmin;
+        }
     }
 
 
@@ -168,6 +169,14 @@ class User
 
         if (is_string($username)) {
             $this->username = $username;
+        }
+    }
+
+    public function setProfilePicture(string $profilePicture)
+    {
+
+        if (is_string($profilePicture)) {
+            $this->profilePicture = $profilePicture;
         }
     }
 
