@@ -4,6 +4,7 @@ use Model\Post;
 use Model\PostManager;
 use Model\Comment;
 use Model\CommentManager;
+use Model\AdminManager;
 use Model\MailManager;
 use Model\User;
 use Model\UserManager;
@@ -22,19 +23,19 @@ function listPosts()
   // Render our view
   print_r($twig->render('blog.html.twig', [
     'post' => $posts,
-    'userid' => $_SESSION['id'] ?? null,
-    'is_admin' => $_SESSION['is_admin'] ?? null,
+    'userid' => filter_var($_SESSION['id']?? null),
+    'is_admin' => filter_var($_SESSION['is_admin']?? null),
   ]));
 }
 
 function emailController($firstname, $birthname, $email, $subject, $message)
 {
     $emailManager = new MailManager();
-    $email = $emailManager->sendemail($firstname, $birthname, $email, $subject, $message);
+    $emailManager->sendemail($firstname, $birthname, $email, $subject, $message);
     header('Location: index.php');
 }
 
-function post()
+function post($postId)
 {
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
@@ -42,20 +43,20 @@ function post()
     $postManager = new PostManager();
     $commentManager = new CommentManager();
 
-    $post = $postManager->getPost($_GET['id']);
-    $comments = $commentManager->getComments($_GET['id']);
+    $post = $postManager->getPost($postId);
+    $comments = $commentManager->getComments($postId);
 
     print_r($twig->render('posts.html.twig', [
         'post' => $post,
         'comments' => $comments,
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']) ?? null,
+        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
         ]));
 }
 
 function addComment($postId, $utilisateur, $comment)
 {
-    $is_admin = $_SESSION['is_admin'];
+    $is_admin = filter_var($_SESSION['is_admin']);
 
     $commentManager = new CommentManager();
 
@@ -108,7 +109,7 @@ function register()
     print_r($twig->render('register.html.twig'));
 }
 
-function registerAction($prenom, $nom, $username, $email, $password)
+function registerAction($prenom, $nom, $username, $email, $password, $retypedPassword)
 {
     $userManager = new UserManager();
     $user = new User();
@@ -119,6 +120,7 @@ function registerAction($prenom, $nom, $username, $email, $password)
     $user->setUsername($username);
     $user->setEmail($email);
     $user->setPassword($password);
+    $user->setRetypedPassword($retypedPassword);
 
     $affectedLines = $userManager->registerAccount($user);
 
@@ -140,8 +142,12 @@ function logIn()
 function logInAction($email, $password)
 {
     $userManager = new UserManager();
+    $user = new User();
 
-    $check = $userManager->logInAccount($email, $password);
+    $user->setEmail($email);
+    $user->setPassword($password);
+
+    $check = $userManager->logInAccount($user);
 
     if ($check === false) {
         throw new Exception('Impossible de se connecter');
@@ -163,23 +169,23 @@ function logOutAction()
     }
 }
 
-function accountPage()
+function accountPage($userId)
 {
     $loader = new FilesystemLoader('templates');
     $twig = new Environment($loader);
 
     $userManager = new UserManager();
-    $user = $userManager->getUser($_GET['id']);
+    $user = $userManager->getUser($userId);
 
     $postManager = new PostManager();
-    $posts = $postManager->getUserPosts($_GET['id']);
+    $posts = $postManager->getUserPosts($userId);
 
     $commentManager = new CommentManager();
-    $comments = $commentManager->getUserComments($_GET['id']);
+    $comments = $commentManager->getUserComments($userId);
 
     print_r($twig->render('profile.html.twig', [
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']?? null),
+        'is_admin' => filter_var($_SESSION['is_admin']?? null),
         'userInfos' => $user,
         'posts' => $posts,
         'comments' => $comments,
@@ -199,51 +205,64 @@ function adminPannel()
     $validedComments = $commentManager->getAllValidedComments();
 
     print_r($twig->render('admin.html.twig', [
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']?? null),
+        'is_admin' => filter_var($_SESSION['is_admin']?? null),
         'posts' => $posts,
         'new_comments' => $newComments,
         'valided_comments' => $validedComments,
     ]));
 }
 
-function changePP($id, $profilepicture)
+function changePP($userId, $profilepicture)
 {
-    if ($id = $_SESSION['id']) {
-        $id = $_SESSION['id'];
+    if ($userId == filter_var($_SESSION['id'])) {
+
         $userManager = new UserManager();
-        $user = $userManager->editPP($id, $profilepicture);
+        $user = new User();
+
+        $image = $profilepicture['tmp_name'];
+        $data = file_get_contents($image);
+
+        $user->setProfilePicture($data);
+        $user->setIdUser($userId);
+
+        $userManager->editPP($user);
 
         if ($affectedLines === false) {
             throw new Exception("Impossible de changer l'image");
         } else {
-            header('Location: account/'.$id);
+            header('Location: account/'.$userId);
         }
     } else {
-        echo "vous n'etes pas le bon utilisateur";
+        throw new Exception("vous n'etes pas le bon utilisateur");
     }
 }
 
-function changeBio($id, $bio)
+function changeBio($userId, $bio)
 {
-    if ($id == $_SESSION['id']) {
-        $id = $_SESSION['id'];
+    if ($userId == filter_var($_SESSION['id'])) {
+
         $userManager = new UserManager();
-        $user = $userManager->editBio($id, $bio);
+        $user = new User();
+
+
+        $user->setDescription($bio);
+        $user->setIdUser($userId);
+        $userManager->editBio($user);
 
         if ($affectedLines === false) {
             throw new Exception('Impossible de changer la bio');
         } else {
-            header('Location: account/'.$id);
+            header('Location: account/'.$userId);
         }
     } else {
-        echo "vous n'etes pas le bon utilisateur";
+        throw new Exception("Vous n'etes pas le bon utilisateur");
     }
 }
-function deleteComController($id)
+function deleteComController($commentId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->deleteComment($id);
+    $adminManager->deleteComment($commentId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de supprimer le commentaire');
@@ -252,10 +271,10 @@ function deleteComController($id)
     }
 }
 
-function deletePostController($id)
+function deletePostController($postId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->deletePost($id);
+    $adminManager->deletePost($postId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de supprimer le commentaire');
@@ -264,10 +283,10 @@ function deletePostController($id)
     }
 }
 
-function validateComController($id)
+function validateComController($commentId)
 {
     $adminManager = new AdminManager();
-    $admin = $adminManager->validateComment($id);
+    $adminManager->validateComment($commentId);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible de valider le commentaire');
@@ -286,7 +305,7 @@ function home()
 
     print_r($twig->render('home.html.twig', [
         'post' => $posts,
-        'userid' => $_SESSION['id'] ?? null,
-        'is_admin' => $_SESSION['is_admin'] ?? null,
+        'userid' => filter_var($_SESSION['id']?? null),
+        'is_admin' => filter_var($_SESSION['is_admin']?? null),
     ]));
 }

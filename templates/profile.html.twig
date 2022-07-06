@@ -1,5 +1,7 @@
 {% extends 'template.html.twig' %}
 
+{% block title %}<title>Compte de {{userInfos.username}}</title>{% endblock %}
+
 {% block body %}
 
 {% if userInfos == null %}

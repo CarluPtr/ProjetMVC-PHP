@@ -1,5 +1,6 @@
 {% extends 'template.html.twig' %}
 
+{% block title %}<title>{{post.title}} de {{post.username}}</title>{% endblock %}
 
 {% block body %}
 
@@ -22,7 +23,16 @@
 <hr class="dropdown-divider my-5">
                 <h3 class="pb-5">Commentaires</h3>
 <!-- Form -->
-
+        {% if userid == null %}
+        <div class="card text-center">
+            <div class="card-header">Désolé !</div>
+            <div class="card-body">
+                <h5 class="card-title">Vous devez être connecté pour pouvoir commenter ce post.</h5>
+                <p class="card-text">Cliquez sur le bouton ci-dessous pour vous connecter</p>
+                <a href="/{{MAIN_FILE}}/login" class="btn btn-primary">Connexion</a>
+            </div>
+            </div>
+        {% else %}
         <div class="row">
                 <form action="/{{ MAIN_FILE }}/index.php?action=addComment&amp;id={{post.id}}" method="post">
             <div class="col-9">        
@@ -36,8 +46,8 @@
                 </form>
             </div>
         </div>
-            
-        </div>
+        {% endif %}        
+    </div>
     </section>     
     <section class="py-5 mt-5 bg-light">
     

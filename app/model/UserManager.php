@@ -1,14 +1,15 @@
 <?php
 
 namespace Model;
+use Exception;
 
 class UserManager extends Manager
 {
     public function registerAccount(User $user)
     {
         $username_lenght = strlen($user->getUsername());
-        $password = strip_tags($user->getPassword());
-        $password_retype = strip_tags($_POST['password_retype']);
+        $password = $user->getPassword();
+        $retypedPassword = $user->getRetypedPassword();
         $email = $user->getEmail();
 
         if ($username_lenght <= 255) {
@@ -19,13 +20,12 @@ class UserManager extends Manager
 
             if ($email_exist == 0) {
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) { // Si l'email est de la bonne forme
-                    if ($password === $password_retype) { // si les deux mdp saisis sont bon
-                    $cost = ['cost' => 12];
+                    if ($password === $retypedPassword) { // si les deux mdp saisis sont bon
+                        $cost = ['cost' => 12];
                         $password = password_hash($password, PASSWORD_BCRYPT, $cost);
+                        $registerPDO = $db->prepare('INSERT INTO user(prenom, nom, username, email, password, is_admin, date_inscription) VALUES(?, ?, ?, ?, ?, ?, NOW())');
+                        $affectedLines = $registerPDO->execute([$user->getPrenom(), $user->getNom(), $user->getUsername(), $email, $password, $user->getIsAdmin()]);
 
-                        $db = $this->dbConnect();
-                        $comments = $db->prepare('INSERT INTO user(prenom, nom, username, email, password, is_admin, date_inscription) VALUES(?, ?, ?, ?, ?, ?, NOW())');
-                        $affectedLines = $comments->execute([$user->getPrenom(), $user->getNom(), $user->getUsername(), $email, $password, $user->getIsAdmin()]);
 
                         return $affectedLines;
                     } else {
@@ -40,9 +40,11 @@ class UserManager extends Manager
         }
     }
 
-    public function logInAccount($email, $password)
+    public function logInAccount(User $user)
     {
-        if (!empty($_POST['email']) && !empty($_POST['password'])) { // Si il existe les champs email, password et qu'il sont pas vident
+        $email = $user->getEmail();
+        $password = $user->getPassword();
+        if (!empty($email) && !empty($password)) { // Si il existe les champs email, password et qu'il sont pas vident
             $password = strip_tags($password);
             $email = strtolower($email);
 
@@ -98,23 +100,24 @@ class UserManager extends Manager
         return $userInfos;
     }
 
-    public function editPP($id, $profilepicture)
+    public function editPP(User $user)
     {
-        $image = $profilepicture['tmp_name'];
-        $data = file_get_contents($image);
+        $userId = $user->getIdUser();
 
         $db = $this->dbConnect();
-        $stmt = $db->prepare("UPDATE user SET profile_picture = ? WHERE id = '$id'");
-        $affectedLines = $stmt->execute([$data]);
+        $stmt = $db->prepare("UPDATE user SET profile_picture = ? WHERE id = '$userId'");
+        $affectedLines = $stmt->execute([$user->getProfilePicture()]);
 
         return $affectedLines;
     }
 
-    public function editBio(int $id, $bio)
+    public function editBio(User $user)
     {
+        $userId = $user->getIdUser();
+
         $db = $this->dbConnect();
-        $stmt = $db->prepare("UPDATE user SET description = ? WHERE id = '$id'");
-        $affectedLines = $stmt->execute([$bio]);
+        $stmt = $db->prepare("UPDATE user SET description = ? WHERE id = '$userId'");
+        $affectedLines = $stmt->execute([$user->getDescription()]);
 
         return $affectedLines;
     }

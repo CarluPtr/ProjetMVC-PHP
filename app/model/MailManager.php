@@ -21,8 +21,8 @@ class MailManager extends PHPMailer
 
         // Outlook email infos
 
-        $from = 'tsunayoshi2000@outlook.fr';
-        $password = 'Sasuke1905';
+        $from = 'youremail@youremail.fr';
+        $password = 'yourpassword';
 
         try {
             // Server settings
@@ -46,9 +46,9 @@ class MailManager extends PHPMailer
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
-            echo 'Message has been sent';
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+        catch (Exception $e) {
+            throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         }
     }
 }
