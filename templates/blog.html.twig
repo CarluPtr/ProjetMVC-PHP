@@ -6,11 +6,13 @@
 <section class="pt-5">
 
         <div class="container py-2">
-          {% if userid is not null %}        
+          {% if userid == null %}   
+          {% else %}     
                   <!-- Button trigger modal -->
           <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="fas fa-edit"></i> Créer un post
           </button>
+          {% endif %}
 
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -40,7 +42,6 @@
             </div>
           </div>
 
-          {% endif %}
     {% for blogpost in post %}
 
             <div class="card mb-3">
