@@ -8,7 +8,7 @@ Import the blogp5 database inside your phpMyAdmin
 
 Your project folder must be named "ProjectMVC-PHP". If not : change the MAIN_FILE variable in 'template.html.twig' by the new folder name
 
--> ProjectMVC-PHP
+-> cd ProjectMVC-PHP
 
 Then do a 
 
