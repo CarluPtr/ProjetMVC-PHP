@@ -49,8 +49,8 @@ function post($postId)
     print_r($twig->render('posts.html.twig', [
         'post' => $post,
         'comments' => $comments,
-        'userid' => filter_var($_SESSION['id']) ?? null,
-        'is_admin' => filter_var($_SESSION['is_admin']) ?? null,
+        'userid' => filter_var($_SESSION['id']?? null),
+        'is_admin' => filter_var($_SESSION['is_admin']?? null),
         ]));
 }
 
